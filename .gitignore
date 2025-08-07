@@ -3,30 +3,164 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Test results and reports
-test-results/
-playwright-report/
-allure-results/
-allure-report/
-cucumber-report.html
-screenshots/
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
 
-# Environment files
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Bower dependency directory (https://bower.io/)
+bower_components
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+jspm_packages/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variable files
 .env
-.env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.local
 
-# IDE files
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+out
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+public
+
+# Vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Test Results and Reports
+reports/test-results/
+reports/allure/results/
+reports/allure/reports/
+reports/playwright/
+reports/cucumber/
+reports/junit/
+reports/coverage/
+reports/screenshots/
+reports/videos/
+reports/traces/
+
+# Playwright specific
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Allure specific
+allure-results/
+allure-report/
+
+# Cucumber specific
+cucumber-report.html
+cucumber-report.json
+
+# Screenshots and Media
+screenshots/
+videos/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.avi
+*.mov
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# IDE and Editor files
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# OS files
+# OS generated files
 .DS_Store
 .DS_Store?
 ._*
@@ -35,37 +169,6 @@ screenshots/
 ehthumbs.db
 Thumbs.db
 
-# Logs
-logs
-*.log
-
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory
-coverage/
-*.lcov
-.nyc_output
-
-# Cache directories
-.cache
-.parcel-cache
-.npm
-.eslintcache
-
-# Docker
-.dockerignore
-docker-compose.override.yml
-docker-compose.*.yml
-!docker-compose.yml
-
-# CI/CD
-.github/workflows/*.yml.bak
-.github/workflows/*.yaml.bak
-
 # Temporary files
 tmp/
 temp/
@@ -73,9 +176,24 @@ temp/
 *.temp
 
 # Build artifacts
-dist/
 build/
+dist/
 out/
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# CI/CD
+.github/workflows/.env
+.gitlab-ci.yml.local
+
+# Security
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
 
 # Database
 *.db
@@ -87,11 +205,26 @@ out/
 *.backup
 *.old
 
-# Lock files
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
+# Archive files
+*.zip
+*.tar.gz
+*.rar
 
-# Local configuration
-.local
-local.*
+# Configuration overrides
+config.local.*
+*.local.*
+
+# Test data (if contains sensitive information)
+data/test-data/sensitive/
+data/fixtures/production/
+
+# Performance test data
+performance-test-data/
+load-test-results/
+
+# Security test data
+security-test-data/
+vulnerability-reports/
+
+# Custom ignore patterns for this project
+# Add any project-specific files or directories here

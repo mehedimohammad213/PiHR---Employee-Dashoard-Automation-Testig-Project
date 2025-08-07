@@ -1,5 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
-import { config } from "./tests/config/environment";
+import { config } from "./src/core/config/environment";
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -126,8 +126,8 @@ export default defineConfig({
   },
 
   /* Global setup and teardown */
-  globalSetup: require.resolve("./tests/setup/global-setup.ts"),
-  globalTeardown: require.resolve("./tests/setup/global-teardown.ts"),
+  globalSetup: require.resolve("./src/core/setup/global-setup.ts"),
+  globalTeardown: require.resolve("./src/core/setup/global-teardown.ts"),
 
   /* Test timeout */
   timeout: config.TEST_TIMEOUT,
@@ -138,7 +138,7 @@ export default defineConfig({
   },
 
   /* Output directory for test artifacts */
-  outputDir: "test-results/",
+  outputDir: "reports/test-results/",
 
   /* Preserve test output */
   preserveOutput: "failures-only",

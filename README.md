@@ -1,96 +1,145 @@
-# PiHR Employee Dashboard Automation Testing Project
+# PiHR Employee Dashboard Automation Testing Framework
 
-A comprehensive test automation framework built with **Playwright**, **TypeScript**, **BDD**, **TDD**, and **Allure Reporting** for the PiHR Employee Dashboard system.
+A comprehensive, enterprise-grade test automation framework built with **Playwright**, **TypeScript**, **BDD**, **TDD**, and **Allure Reporting** for the PiHR Employee Dashboard system.
 
-## 🚀 Project Overview
+## 🏗️ Project Architecture
 
-This project provides a complete test automation solution for the PiHR Employee Dashboard, featuring:
-
-- **Playwright** for cross-browser automation
-- **TypeScript** for type safety and better development experience
-- **BDD (Behavior Driven Development)** with Cucumber for business-readable tests
-- **TDD (Test Driven Development)** for test-first development approach
-- **Allure Reporting** for beautiful, interactive test reports
-- **Page Object Model (POM)** for maintainable test structure
-- **Multi-browser testing** (Chromium, Firefox, WebKit)
-
-## 📁 Project Structure
+This project follows senior developer best practices with a clean, scalable architecture:
 
 ```
 PiHR---Employee-Dashoard-Automation-Testig-Project/
-├── features/                          # BDD Feature Files (Cucumber)
-│   ├── login.feature                 # Login functionality
-│   ├── job-card.feature             # Job card management
-│   ├── attendance.feature           # Monthly attendance
-│   ├── logout.feature              # Logout functionality
-│   ├── step-definitions/           # Step implementations
-│   │   ├── login.steps.ts
-│   │   ├── job-card.steps.ts
-│   │   ├── attendance.steps.ts
-│   │   └── logout.steps.ts
-│   └── support/                    # Cucumber support files
-│       ├── world.ts               # Custom world setup
-│       └── hooks.ts              # Setup/teardown hooks
-├── tests/
-│   ├── pages/                      # Page Object Model Classes
-│   │   ├── LoginPage.ts
-│   │   ├── DashboardPage.ts
-│   │   ├── JobCardPage.ts
-│   │   └── MonthlyAttendancePage.ts
-│   ├── data/                       # Test Data and Selectors
-│   │   └── testData.ts
-│   ├── utils/                      # Utility Functions
-│   │   ├── TestUtils.ts
-│   │   └── test-helpers.ts
-│   ├── tdd/                       # TDD Test Files
-│   │   ├── tdd-examples.spec.ts  # TDD examples
-│   │   └── tdd-utils.ts          # TDD utility functions
-│   ├── allure-demo.spec.ts        # Allure reporting examples
-│   ├── employee-workflow.spec.ts  # Main workflow tests
-│   └── employee-workflow-allure.spec.ts # Enhanced workflow with Allure
-├── allure-results/                 # Allure results (auto-generated)
-├── allure-report/                  # Allure reports (auto-generated)
-├── screenshots/                    # Test screenshots
-├── playwright.config.ts            # Playwright configuration
-├── cucumber.js                     # Cucumber configuration
-├── package.json                    # Dependencies and scripts
-├── tsconfig.json                   # TypeScript configuration
-├── .gitignore                      # Git ignore rules
-├── README.md                       # This file
-├── ALLURE_README.md                # Allure reporting guide
-└── BDD_TDD_README.md              # BDD and TDD guide
+├── 📁 src/                           # Source code
+│   ├── 📁 core/                      # Core framework components
+│   │   ├── 📁 base/                  # Base classes and interfaces
+│   │   ├── 📁 config/                # Configuration management
+│   │   ├── 📁 data/                  # Test data management
+│   │   ├── 📁 interfaces/            # TypeScript interfaces
+│   │   ├── 📁 setup/                 # Global setup/teardown
+│   │   ├── 📁 types/                 # TypeScript type definitions
+│   │   └── 📁 utils/                 # Utility functions
+│   ├── 📁 api/                       # API testing components
+│   │   ├── 📁 endpoints/             # API endpoint definitions
+│   │   ├── 📁 models/                # API data models
+│   │   └── 📁 services/              # API service classes
+│   ├── 📁 ui/                        # UI testing components
+│   │   ├── 📁 pages/                 # Page Object Models
+│   │   ├── 📁 components/            # Reusable UI components
+│   │   └── 📁 flows/                 # User journey flows
+│   ├── 📁 performance/               # Performance testing
+│   │   ├── 📁 load/                  # Load testing
+│   │   ├── 📁 stress/                # Stress testing
+│   │   └── 📁 benchmark/             # Benchmark testing
+│   └── 📁 security/                  # Security testing
+│       ├── 📁 vulnerability/         # Vulnerability scanning
+│       ├── 📁 penetration/           # Penetration testing
+│       └── 📁 compliance/            # Compliance testing
+├── 📁 tests/                         # Test suites
+│   ├── 📁 unit/                      # Unit tests
+│   ├── 📁 integration/               # Integration tests
+│   ├── 📁 e2e/                       # End-to-end tests
+│   │   └── 📁 features/              # BDD feature files
+│   ├── 📁 smoke/                     # Smoke tests
+│   ├── 📁 regression/                # Regression tests
+│   ├── 📁 performance/               # Performance tests
+│   └── 📁 security/                  # Security tests
+├── 📁 config/                        # Configuration files
+│   ├── 📁 environments/              # Environment configurations
+│   └── 📁 ci-cd/                     # CI/CD configurations
+├── 📁 docs/                          # Documentation
+│   ├── 📁 api/                       # API documentation
+│   ├── 📁 guides/                    # User guides
+│   └── 📁 reports/                   # Report templates
+├── 📁 reports/                       # Test reports and artifacts
+│   ├── 📁 allure/                    # Allure reports
+│   ├── 📁 cucumber/                  # Cucumber reports
+│   ├── 📁 junit/                     # JUnit reports
+│   ├── 📁 coverage/                  # Coverage reports
+│   ├── 📁 screenshots/               # Test screenshots
+│   ├── 📁 test-results/              # Test execution results
+│   └── 📁 playwright/                # Playwright reports
+├── 📁 data/                          # Test data
+│   ├── 📁 test-data/                 # Test data files
+│   ├── 📁 fixtures/                  # Test fixtures
+│   └── 📁 mocks/                     # Mock data
+├── 📁 utils/                         # Utility scripts
+│   ├── 📁 helpers/                   # Helper functions
+│   ├── 📁 validators/                # Data validators
+│   └── 📁 generators/                # Code generators
+├── 📁 scripts/                       # Automation scripts
+│   ├── 📁 setup/                     # Setup scripts
+│   ├── 📁 deployment/                # Deployment scripts
+│   └── 📁 maintenance/               # Maintenance scripts
+├── 📁 tools/                         # Development tools
+│   ├── 📁 linting/                   # Linting configurations
+│   ├── 📁 formatting/                # Code formatting
+│   └── 📁 generators/                # Code generators
+├── 📁 .github/                       # GitHub workflows
+├── 📄 package.json                   # Dependencies and scripts
+├── 📄 playwright.config.ts           # Playwright configuration
+├── 📄 tsconfig.json                  # TypeScript configuration
+└── 📄 .gitignore                     # Git ignore rules
 ```
 
-## 🎯 Key Features
+## 🚀 Key Features
 
-### 🔧 Core Technologies
+### 🏗️ Architecture & Design
+- **Clean Architecture**: Separation of concerns with clear boundaries
+- **SOLID Principles**: Object-oriented design principles
+- **Design Patterns**: Page Object Model, Factory, Strategy patterns
+- **Type Safety**: Full TypeScript implementation
+- **Modular Design**: Reusable components and utilities
 
-- **Playwright**: Modern web automation library
-- **TypeScript**: Type-safe JavaScript
-- **Cucumber**: BDD framework with Gherkin syntax
-- **Allure**: Beautiful test reporting
-- **Page Object Model**: Maintainable test structure
+### 🧪 Testing Methodologies
+- **BDD (Behavior Driven Development)**: Business-readable tests with Cucumber
+- **TDD (Test Driven Development)**: Test-first development approach
+- **ATDD (Acceptance Test Driven Development)**: Acceptance criteria validation
+- **DDT (Data Driven Testing)**: Parameterized test scenarios
+- **Cross-browser Testing**: Chromium, Firefox, WebKit support
 
-### 📊 Testing Methodologies
+### 📊 Reporting & Analytics
+- **Allure Reports**: Interactive HTML reports with rich metadata
+- **Cucumber Reports**: Business-friendly test reports
+- **JUnit Reports**: CI/CD integration reports
+- **Coverage Reports**: Code coverage analysis
+- **Performance Metrics**: Load time and performance monitoring
 
-- **BDD (Behavior Driven Development)**: Business-readable tests
-- **TDD (Test Driven Development)**: Test-first development
-- **Cross-browser Testing**: Chromium, Firefox, WebKit
+### 🔧 Development Tools
+- **ESLint**: Code quality and consistency
+- **Prettier**: Code formatting
+- **Husky**: Git hooks for quality gates
+- **Commitizen**: Conventional commit messages
+- **TypeScript**: Type safety and IntelliSense
+
+### 🚀 CI/CD Integration
+- **GitHub Actions**: Automated testing workflows
+- **Docker**: Containerized test execution
+- **Multi-environment**: Development, staging, production
 - **Parallel Execution**: Fast test execution
-- **Headless/Headed Mode**: Flexible execution options
+- **Artifact Management**: Test results and reports
 
-### 📈 Reporting & Analytics
+## 🎯 Test Categories
 
-- **Allure Reports**: Interactive HTML reports
-- **Screenshots**: Automatic and manual captures
-- **Performance Metrics**: Load time measurements
-- **Test Metadata**: Severity, epic, feature, story
-- **Attachments**: Screenshots, logs, custom data
+### 📋 Test Types
+- **Unit Tests**: Individual component testing
+- **Integration Tests**: Component interaction testing
+- **E2E Tests**: Full user journey testing
+- **Smoke Tests**: Critical path validation
+- **Regression Tests**: Comprehensive functionality testing
+- **Performance Tests**: Load and stress testing
+- **Security Tests**: Vulnerability and penetration testing
+
+### 🏷️ Test Tags
+- `@smoke`: Critical path tests
+- `@regression`: Full regression suite
+- `@performance`: Performance testing
+- `@security`: Security testing
+- `@api`: API testing
+- `@ui`: UI testing
+- `@e2e`: End-to-end testing
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-
 - Node.js (v18 or higher)
 - npm or yarn
 - Git
@@ -99,7 +148,7 @@ PiHR---Employee-Dashoard-Automation-Testig-Project/
 
 ```bash
 # Clone the repository
-git clone https://github.com/mehedimohammad213/PiHR---Employee-Dashoard-Automation-Testig-Project.git
+git clone https://github.com/your-org/pihr-automation-framework.git
 
 # Navigate to project directory
 cd PiHR---Employee-Dashoard-Automation-Testig-Project
@@ -109,160 +158,131 @@ npm install
 
 # Install Playwright browsers
 npm run test:install
+
+# Setup environment
+npm run env:setup
 ```
 
 ### Running Tests
 
-#### Standard Playwright Tests
-
+#### 🧪 All Test Types
 ```bash
 # Run all tests
-npm test
+npm run test:all
 
-# Run with headed browser
-npm run test:headed
-
-# Run with UI mode
-npm run test:ui
-
-# Run in debug mode
-npm run test:debug
+# Run with comprehensive reporting
+npm run report:comprehensive
 ```
 
-#### BDD Tests (Cucumber)
-
+#### 🔥 Smoke Tests
 ```bash
-# Run all BDD tests
-npm run bdd
-
-# Run BDD tests with headed browser
-npm run bdd:headed
-
-# Run BDD tests with HTML report
-npm run bdd:report
-
-# Run specific BDD tags
-npm run bdd:tags @smoke
-npm run bdd:tags @login
-```
-
-#### TDD Tests
-
-```bash
-# Run all TDD tests
-npm run tdd
-
-# Run TDD tests with headed browser
-npm run tdd:headed
-
-# Run TDD tests in debug mode
-npm run tdd:debug
-```
-
-#### Tagged Tests
-
-```bash
-# Run smoke tests
+# Quick validation
 npm run test:smoke
-
-# Run specific feature tests
-npm run test:login
-npm run test:jobcard
-npm run test:attendance
-npm run test:logout
 ```
 
-#### Allure Reporting
+#### 🔄 Regression Tests
+```bash
+# Full regression suite
+npm run test:regression
+```
+
+#### 🎭 E2E Tests
+```bash
+# End-to-end tests
+npm run test:e2e
+
+# BDD tests
+npm run test:bdd
+```
+
+#### ⚡ Performance Tests
+```bash
+# Performance testing
+npm run test:performance
+```
+
+#### 🔒 Security Tests
+```bash
+# Security testing
+npm run test:security
+```
+
+### 📊 Reports
 
 ```bash
-# Run tests with Allure reporter
-npm run test:allure
-
-# Generate Allure report
+# Generate Allure reports
 npm run allure:generate
 
-# Open Allure report
+# Open Allure dashboard
 npm run allure:open
 
-# Serve Allure report
-npm run allure:serve
+# Generate comprehensive reports
+npm run report:full
 ```
 
-## 📝 Test Examples
+## 🏗️ Development Workflow
 
-### BDD Feature Example
+### 1. **Feature Development**
+```bash
+# Create feature branch
+git checkout -b feature/new-feature
 
-```gherkin
-Feature: Employee Login
-  As an employee
-  I want to log into the PiHR system
-  So that I can access my dashboard
+# Write tests first (TDD)
+npm run test:unit
 
-  @smoke @login
-  Scenario: Successful login with valid credentials
-    Given I am on the login page
-    When I enter valid username "01830377213"
-    And I enter valid password "nopass@1234"
-    And I click the "Login" button
-    Then I should be successfully logged in
-    And I should see the employee dashboard
+# Implement feature
+# Run tests
+npm run test:all
+
+# Commit with conventional message
+git commit -m "feat: add new feature with tests"
 ```
 
-### TDD Example
+### 2. **BDD Development**
+```bash
+# Write feature file
+# tests/e2e/features/new-feature.feature
 
-```typescript
-test("should validate empty username field", async ({ page }) => {
-  // Arrange: Navigate to login page
-  await page.goto("https://webable.pihr.xyz/login");
+# Generate step definitions
+npm run bdd:generate
 
-  // Act: Try to login with empty username
-  const frame = page.locator('iframe[title="Login Page"]').contentFrame();
-  await frame!.getByRole("textbox", { name: "Password" }).fill("testpassword");
-  await frame!.getByRole("button", { name: "Login" }).click();
-
-  // Assert: Should show validation error (this test might fail initially)
-  // This is the TDD approach - write the test first, then implement the feature
-  try {
-    await expect(page.locator(".error-message")).toBeVisible();
-  } catch (error) {
-    console.log(
-      "Validation feature not implemented yet - this is expected in TDD"
-    );
-  }
-});
+# Implement step definitions
+# Run BDD tests
+npm run test:bdd
 ```
 
-### Page Object Model Example
+### 3. **Code Quality**
+```bash
+# Lint code
+npm run lint
 
-```typescript
-export class LoginPage {
-  private page: Page;
+# Format code
+npm run format
 
-  constructor(page: Page) {
-    this.page = page;
-  }
-
-  async goto() {
-    await this.page.goto("https://webable.pihr.xyz/login");
-  }
-
-  async login(username: string, password: string) {
-    const frame = this.page
-      .locator('iframe[title="Login Page"]')
-      .contentFrame();
-    await frame!
-      .getByRole("textbox", { name: "Username/ Mobile" })
-      .fill(username);
-    await frame!.getByRole("textbox", { name: "Password" }).fill(password);
-    await frame!.getByRole("button", { name: "Login" }).click();
-  }
-}
+# Run type checking
+npm run type-check
 ```
+
+## 📚 Documentation
+
+- **[API Documentation](docs/api/)**: Complete API reference
+- **[User Guides](docs/guides/)**: Step-by-step guides
+- **[Architecture Guide](docs/guides/ARCHITECTURE.md)**: System design documentation
+- **[Testing Guide](docs/guides/TESTING.md)**: Testing best practices
+- **[Deployment Guide](docs/guides/DEPLOYMENT.md)**: Deployment instructions
 
 ## 🔧 Configuration
 
-### Playwright Configuration
+### Environment Configuration
+```bash
+# Copy environment template
+cp config/environments/env.example .env
 
+# Configure environment variables
+# .env file contains all necessary configurations
+```
+
+### Playwright Configuration
 ```typescript
 // playwright.config.ts
 export default defineConfig({
@@ -270,208 +290,78 @@ export default defineConfig({
   fullyParallel: true,
   reporter: [
     ["html"],
-    [
-      "allure-playwright",
-      {
-        detail: true,
-        outputFolder: "allure-results",
-        suiteTitle: false,
-        attachments: true,
-        environmentInfo: {
-          framework: "Playwright",
-          language: "TypeScript",
-        },
-      },
-    ],
+    ["allure-playwright", { outputFolder: "reports/allure/results" }],
   ],
   use: {
-    baseURL: "http://127.0.0.1:3000",
+    baseURL: process.env.BASE_URL,
     trace: "on-first-retry",
   },
-  projects: [
-    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
-    { name: "firefox", use: { ...devices["Desktop Firefox"] } },
-    { name: "webkit", use: { ...devices["Desktop Safari"] } },
-  ],
 });
 ```
 
-### Cucumber Configuration
+## 🚀 CI/CD Pipeline
 
-```javascript
-// cucumber.js
-module.exports = {
-  default: {
-    requireModule: ["ts-node/register"],
-    require: ["features/step-definitions/**/*.ts", "features/support/**/*.ts"],
-    format: ["progress-bar", "html:cucumber-report.html"],
-    formatOptions: { snippetInterface: "async-await" },
-    publishQuiet: true,
-  },
-};
+### GitHub Actions Workflow
+```yaml
+# .github/workflows/test.yml
+name: Test Automation
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npm ci
+      - run: npm run test:all
+      - run: npm run report:generate
 ```
 
-## 📊 Test Categories
+## 🐳 Docker Support
 
-### BDD Tags
+### Containerized Testing
+```bash
+# Build Docker image
+npm run docker:build
 
-- `@smoke`: Critical path tests
-- `@login`: Authentication tests
-- `@jobcard`: Job card functionality
-- `@attendance`: Attendance management
-- `@logout`: Logout functionality
-- `@negative`: Negative test scenarios
-- `@validation`: Input validation tests
-- `@security`: Security-related tests
+# Run tests in container
+npm run docker:test
 
-### TDD Categories
+# Run with Docker Compose
+npm run docker:compose
+```
 
-- `@tdd`: Test-driven development examples
-- `@performance`: Performance testing
-- `@security`: Security testing
-- `@accessibility`: Accessibility testing
-- `@validation`: Data validation testing
+## 📊 Monitoring & Analytics
 
-## 🎯 Test Scenarios Covered
+### Test Metrics
+- **Test Execution Time**: Performance monitoring
+- **Success Rate**: Quality metrics
+- **Coverage**: Code coverage analysis
+- **Defect Density**: Quality indicators
 
-### Authentication
-
-- ✅ Valid login with credentials
-- ✅ Invalid login attempts
-- ✅ Empty field validation
-- ✅ Special character handling
-- ✅ Logout functionality
-- ✅ Session management
-
-### Job Card Management
-
-- ✅ Navigate to job card section
-- ✅ Date range selection
-- ✅ PDF report generation
-- ✅ Excel export functionality
-- ✅ Date validation
-- ✅ Permission validation
-
-### Monthly Attendance
-
-- ✅ Navigate to attendance section
-- ✅ Month selection
-- ✅ PDF report generation
-- ✅ Navigation between sections
-- ✅ Dashboard access
-
-### Dashboard Navigation
-
-- ✅ Employee section access
-- ✅ Self Service navigation
-- ✅ My Screens functionality
-- ✅ Profile management
-- ✅ Logout from different pages
-
-## 📈 Reporting Features
-
-### Allure Reports
-
-- **Interactive Dashboard**: Beautiful, responsive interface
-- **Test Steps**: Detailed step-by-step execution
-- **Screenshots**: Automatic and manual captures
-- **Attachments**: Custom data, logs, performance metrics
-- **Categories**: Epic, Feature, Story organization
-- **Severity Levels**: Critical, High, Medium, Low
-- **Trend Analysis**: Historical test execution data
-
-### Cucumber Reports
-
-- **HTML Reports**: `cucumber-report.html`
-- **Console Output**: Progress bar and step details
-- **Gherkin Syntax**: Business-readable scenarios
-
-## 🔄 Development Workflow
-
-### BDD Workflow
-
-1. **Write Feature**: Create `.feature` file with scenarios
-2. **Generate Steps**: Cucumber generates step definitions
-3. **Implement Steps**: Write step implementation code
-4. **Run Tests**: Execute BDD tests
-5. **Refine**: Update scenarios based on results
-
-### TDD Workflow
-
-1. **Write Test**: Create test for non-existent feature
-2. **Run Test**: Test fails (Red)
-3. **Implement Feature**: Write minimal code to pass test
-4. **Run Test**: Test passes (Green)
-5. **Refactor**: Improve code while keeping tests green
-6. **Repeat**: Continue for next feature
-
-## 🎯 Best Practices
-
-### Code Organization
-
-- **Page Object Model**: Separate page logic from test logic
-- **Test Data Management**: Centralized test data
-- **Utility Functions**: Reusable helper methods
-- **Type Safety**: Full TypeScript support
-
-### Test Design
-
-- **Descriptive Names**: Clear test and method names
-- **Single Responsibility**: One test per scenario
-- **Data-Driven**: Parameterized test scenarios
-- **Error Handling**: Comprehensive error scenarios
-
-### Reporting
-
-- **Allure Integration**: Rich reporting with metadata
-- **Screenshots**: Automatic captures on failures
-- **Performance Metrics**: Load time measurements
-- **Environment Info**: System and browser details
-
-## 🚀 Advanced Features
-
-### Performance Testing
-
-- Page load time measurements
-- Memory usage monitoring
-- Performance regression detection
-- Load time thresholds
-
-### Security Testing
-
-- Input validation testing
-- XSS prevention testing
-- Session management testing
-- Permission validation
-
-### Accessibility Testing
-
-- Screen reader compatibility
-- Keyboard navigation testing
-- Color contrast validation
-- ARIA attribute testing
-
-### Cross-browser Testing
-
-- Chromium (Chrome/Edge)
-- Firefox
-- WebKit (Safari)
-- Parallel execution
-
-## 📚 Documentation
-
-- **[Allure README](ALLURE_README.md)**: Comprehensive Allure reporting guide
-- **[BDD/TDD README](BDD_TDD_README.md)**: BDD and TDD implementation guide
-- **[Playwright Docs](https://playwright.dev/docs)**: Official Playwright documentation
-- **[Cucumber Docs](https://cucumber.io/docs)**: Official Cucumber documentation
+### Reporting Dashboard
+- **Allure Dashboard**: Interactive test reports
+- **Trend Analysis**: Historical data
+- **Performance Metrics**: Load time analysis
+- **Security Reports**: Vulnerability assessment
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+### Development Guidelines
+1. **Fork** the repository
+2. **Create** feature branch (`git checkout -b feature/amazing-feature`)
+3. **Write** tests first (TDD approach)
+4. **Implement** feature with clean code
+5. **Run** all tests and ensure they pass
+6. **Commit** with conventional message
+7. **Push** to branch and create Pull Request
+
+### Code Standards
+- **TypeScript**: Strict type checking
+- **ESLint**: Code quality rules
+- **Prettier**: Consistent formatting
+- **Conventional Commits**: Standard commit messages
+- **Test Coverage**: Minimum 80% coverage
 
 ## 📄 License
 
@@ -479,21 +369,19 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support
 
-For support and questions:
+### Getting Help
+- 📖 **Documentation**: Check the [docs/](docs/) directory
+- 🐛 **Issues**: Create an issue in GitHub
+- 💬 **Discussions**: Use GitHub Discussions
+- 📧 **Email**: Contact the development team
 
-- Create an issue in the GitHub repository
-- Check the documentation files
-- Review the test examples
-
-## 🎉 Acknowledgments
-
-- **Playwright Team**: For the excellent automation framework
-- **Cucumber Team**: For the BDD framework
-- **Allure Team**: For the beautiful reporting system
-- **TypeScript Team**: For the type-safe JavaScript
+### Community
+- **Slack**: Join our testing community
+- **Discord**: Real-time discussions
+- **Meetups**: Local testing meetups
 
 ---
 
-**Happy Testing! 🚀**
+**Built with ❤️ by the PiHR Testing Team**
 
-This project demonstrates modern test automation best practices with a comprehensive approach to testing web applications using Playwright, TypeScript, BDD, TDD, and Allure reporting.
+*This framework demonstrates enterprise-grade test automation best practices with a focus on maintainability, scalability, and developer experience.*
