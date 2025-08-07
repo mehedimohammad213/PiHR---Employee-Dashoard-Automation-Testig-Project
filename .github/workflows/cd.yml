@@ -13,38 +13,38 @@ jobs:
     name: Deploy to Staging
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build Docker image
-      run: docker build -t pihr-playwright-tests:staging .
-      
-    - name: Deploy to staging environment
-      run: |
-        echo "Deploying to staging environment"
-        # Add your staging deployment commands here
-        # Example: docker-compose -f docker-compose.staging.yml up -d
-        
-    - name: Run smoke tests on staging
-      run: |
-        echo "Running smoke tests on staging"
-        npm run test:smoke || echo "Smoke tests not configured"
-        
-    - name: Notify staging deployment
-      run: |
-        echo "Staging deployment completed successfully"
-        # Add notification logic here (Slack, email, etc.)
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Docker image
+        run: docker build -t pihr-playwright-tests:staging .
+
+      - name: Deploy to staging environment
+        run: |
+          echo "Deploying to staging environment"
+          # Add your staging deployment commands here
+          # Example: docker-compose -f docker-compose.staging.yml up -d
+
+      - name: Run smoke tests on staging
+        run: |
+          echo "Running smoke tests on staging"
+          npm run test:smoke || echo "Smoke tests not configured"
+
+      - name: Notify staging deployment
+        run: |
+          echo "Staging deployment completed successfully"
+          # Add notification logic here (Slack, email, etc.)
 
   # Deploy to production (manual approval)
   deploy-production:
@@ -52,59 +52,59 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
     needs: [deploy-staging]
-    
+
     environment:
       name: production
       url: https://your-production-url.com
-      
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build Docker image
-      run: docker build -t pihr-playwright-tests:production .
-      
-    - name: Deploy to production environment
-      run: |
-        echo "Deploying to production environment"
-        # Add your production deployment commands here
-        # Example: docker-compose -f docker-compose.production.yml up -d
-        
-    - name: Run smoke tests on production
-      run: |
-        echo "Running smoke tests on production"
-        npm run test:smoke || echo "Smoke tests not configured"
-        
-    - name: Notify production deployment
-      run: |
-        echo "Production deployment completed successfully"
-        # Add notification logic here (Slack, email, etc.)
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Docker image
+        run: docker build -t pihr-playwright-tests:production .
+
+      - name: Deploy to production environment
+        run: |
+          echo "Deploying to production environment"
+          # Add your production deployment commands here
+          # Example: docker-compose -f docker-compose.production.yml up -d
+
+      - name: Run smoke tests on production
+        run: |
+          echo "Running smoke tests on production"
+          npm run test:smoke || echo "Smoke tests not configured"
+
+      - name: Notify production deployment
+        run: |
+          echo "Production deployment completed successfully"
+          # Add notification logic here (Slack, email, etc.)
 
   # Rollback deployment (if needed)
   rollback:
     name: Rollback Deployment
     runs-on: ubuntu-latest
     if: failure()
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Rollback to previous version
-      run: |
-        echo "Rolling back to previous version"
-        # Add rollback logic here
-        
-    - name: Notify rollback
-      run: |
-        echo "Rollback completed"
-        # Add notification logic here
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Rollback to previous version
+        run: |
+          echo "Rolling back to previous version"
+          # Add rollback logic here
+
+      - name: Notify rollback
+        run: |
+          echo "Rollback completed"
+          # Add notification logic here

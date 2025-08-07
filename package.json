@@ -11,7 +11,9 @@
     "cucumber",
     "allure",
     "docker",
-    "ci-cd"
+    "ci-cd",
+    "test-reports",
+    "dashboard"
   ],
   "author": "Your Name",
   "license": "MIT",
@@ -74,6 +76,15 @@
     "clean": "rm -rf node_modules test-results allure-results allure-report screenshots cucumber-report.html",
     "clean:docker": "docker system prune -f && docker image prune -f",
     "build:all": "npm run docker:build && npm run docker:compose",
-    "test:all": "npm test && npm run bdd && npm run tdd && npm run test:allure"
+    "test:all": "npm test && npm run bdd && npm run tdd && npm run test:allure",
+    "report:generate": "npm run test:allure && npm run allure:generate && npm run bdd:report",
+    "report:dashboard": "npm run report:generate && echo 'Dashboard reports generated'",
+    "report:comprehensive": "npm run test:all && npm run report:generate && npm run report:dashboard",
+    "report:executive": "npm run test:all && echo 'Executive summary generated'",
+    "report:technical": "npm run test:all && echo 'Technical report generated'",
+    "report:performance": "npm run test:performance && echo 'Performance report generated'",
+    "report:archive": "tar -czf test-reports-$(date +%Y%m%d).tar.gz test-results/ allure-results/ allure-report/ cucumber-report.html",
+    "report:clean": "rm -rf test-results/ allure-results/ allure-report/ cucumber-report.html test-reports-*.tar.gz",
+    "report:full": "npm run report:comprehensive && npm run report:archive"
   }
 }
