@@ -4,44 +4,20 @@ import { config } from "../config/environment";
 export class JobCardPage {
   readonly page: Page;
   readonly dateRangeInput: Locator;
-  readonly monthDropdown: Locator;
-  readonly yearDropdown: Locator;
-  readonly startDateButton: Locator;
-  readonly endDateButton: Locator;
+  readonly datePicker: Locator;
   readonly pdfReportButton: Locator;
   readonly exportExcelButton: Locator;
-  readonly datePicker: Locator;
-  readonly dateOptions: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.dateRangeInput = page.getByRole("textbox", {
       name: "Select Date Range",
     });
-    this.monthDropdown = page
-      .getByText(
-        "JanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecember195019"
-      )
-      .first();
-    this.yearDropdown = page
-      .getByText(
-        "JanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecember195019"
-      )
-      .first();
-    this.startDateButton = page
-      .getByRole("dialog", { name: "Choose Date" })
-      .getByRole("button")
-      .first();
-    this.endDateButton = page
-      .getByRole("dialog", { name: "Choose Date" })
-      .getByRole("button")
-      .nth(1);
+    this.datePicker = page.getByRole("dialog", { name: "Choose Date" });
     this.pdfReportButton = page.getByRole("button", { name: "PDF Report" });
     this.exportExcelButton = page.getByRole("button", {
       name: "Export to Excel",
     });
-    this.datePicker = page.getByRole("dialog", { name: "Choose Date" });
-    this.dateOptions = page.getByRole("option");
   }
 
   async goto() {
@@ -53,20 +29,12 @@ export class JobCardPage {
     // Click on date range input
     await this.dateRangeInput.click();
 
-    // Select start date
-    await this.startDateButton.click();
-    await this.monthDropdown.click();
-    await this.page
-      .getByRole("option", { name: `Choose ${startDate}` })
-      .click();
+    // Select start date - first button in date picker
+    await this.datePicker.getByRole('button').first().click();
+    await this.page.getByRole('option', { name: `Choose ${startDate}` }).click();
 
-    // Select end date
-    await this.endDateButton.click();
-    await this.monthDropdown.click();
-    await this.page
-      .getByRole("listbox", { name: "Month July," })
-      .getByLabel(`Choose ${endDate}`)
-      .click();
+    // Select end date - use listbox for month selection
+    await this.page.getByRole('listbox', { name: 'Month July,' }).getByLabel(`Choose ${endDate}`).click();
   }
 
   async generatePDFReport() {

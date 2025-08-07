@@ -17,6 +17,29 @@ export const testData = {
     attendance: config.ATTENDANCE_URL,
   },
 
+  // Date and month data for tests
+  dates: {
+    startDate: "Tuesday, July 1st,",
+    endDate: "Thursday, July 31st,",
+    today: new Date().toLocaleDateString(),
+    yesterday: new Date(Date.now() - 24 * 60 * 60 * 1000).toLocaleDateString(),
+  },
+
+  months: {
+    january: "January",
+    february: "February",
+    march: "March",
+    april: "April",
+    may: "May",
+    june: "June",
+    july: "July",
+    august: "August",
+    september: "September",
+    october: "October",
+    november: "November",
+    december: "December",
+  },
+
   // Test scenarios
   scenarios: {
     validLogin: {

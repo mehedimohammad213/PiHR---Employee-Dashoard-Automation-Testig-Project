@@ -107,9 +107,7 @@ test.describe("Employee Workflow Tests", () => {
     await loginPage.verifyLoginSuccess();
 
     // Navigate to job card
-    await dashboardPage.navigateToEmployee();
-    await dashboardPage.navigateToSelfService();
-    await jobCardPage.navigateToJobCard();
+    await dashboardPage.navigateToJobCard();
 
     // Test date selection
     await jobCardPage.selectDateRange(
@@ -136,9 +134,7 @@ test.describe("Employee Workflow Tests", () => {
     await loginPage.verifyLoginSuccess();
 
     // Navigate to monthly attendance
-    await dashboardPage.navigateToEmployee();
-    await dashboardPage.navigateToSelfService();
-    await monthlyAttendancePage.navigateToMonthlyAttendance();
+    await dashboardPage.navigateToMonthlyAttendance();
 
     // Select month and generate report
     await monthlyAttendancePage.selectMonth(testData.months.june);

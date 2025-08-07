@@ -197,9 +197,7 @@ test.describe("Employee Workflow Tests with Allure Reporting", () => {
 
     // Navigate to job card
     allure.step("Navigate to job card section", async () => {
-      await dashboardPage.navigateToEmployee();
-      await dashboardPage.navigateToSelfService();
-      await jobCardPage.navigateToJobCard();
+      await dashboardPage.navigateToJobCard();
       await testUtils.takeScreenshot("job-card-navigation");
     });
 
@@ -249,9 +247,7 @@ test.describe("Employee Workflow Tests with Allure Reporting", () => {
 
     // Navigate to monthly attendance
     allure.step("Navigate to monthly attendance section", async () => {
-      await dashboardPage.navigateToEmployee();
-      await dashboardPage.navigateToSelfService();
-      await monthlyAttendancePage.navigateToMonthlyAttendance();
+      await dashboardPage.navigateToMonthlyAttendance();
       await testUtils.takeScreenshot("monthly-attendance-navigation");
     });
 

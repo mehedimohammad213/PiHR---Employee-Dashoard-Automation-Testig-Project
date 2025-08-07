@@ -3,8 +3,8 @@ import { config } from "../config/environment";
 
 export class DashboardPage {
   readonly page: Page;
-  readonly employeeMenu: Locator;
   readonly selfServiceMenu: Locator;
+  readonly reportsMenu: Locator;
   readonly myJobCardButton: Locator;
   readonly monthlyAttendanceButton: Locator;
   readonly myScreensMenu: Locator;
@@ -14,25 +14,14 @@ export class DashboardPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.employeeMenu = page
-      .getByRole("paragraph")
-      .filter({ hasText: "Employee" })
-      .locator("span");
-    this.selfServiceMenu = page
-      .getByRole("paragraph")
-      .filter({ hasText: "Self Service" })
-      .locator("span");
-    this.myJobCardButton = page.getByRole("button", { name: "My Job Card" });
-    this.monthlyAttendanceButton = page.getByRole("button", {
-      name: "Monthly Attendance",
-      exact: true,
-    });
-    this.myScreensMenu = page
-      .getByRole("paragraph")
-      .filter({ hasText: "My Screens" });
-    this.dashboardButton = page.getByRole("button", { name: "Dashboard" });
-    this.profileImage = page.getByRole("img", { name: "profile", exact: true });
-    this.logoutMenuItem = page.getByRole("menuitem", { name: "Logout" });
+    this.selfServiceMenu = page.locator('p:has-text("Self Service")');
+    this.reportsMenu = page.locator('p:has-text("Reports")');
+    this.myJobCardButton = page.locator('button:has-text("My Job Card")');
+    this.monthlyAttendanceButton = page.locator('button:has-text("Monthly Attendance")');
+    this.myScreensMenu = page.locator('p:has-text("My Screens")');
+    this.dashboardButton = page.locator('button:has-text("Dashboard")');
+    this.profileImage = page.locator('img[name="profile"]');
+    this.logoutMenuItem = page.locator('menuitem[name="Logout"]');
   }
 
   async goto() {
@@ -41,8 +30,18 @@ export class DashboardPage {
   }
 
   async navigateToJobCard() {
-    await this.employeeMenu.click();
+    // Wait for page to fully load
+    await this.page.waitForTimeout(3000);
+
+    // Click Self Service
     await this.selfServiceMenu.click();
+    await this.page.waitForTimeout(2000);
+
+    // Double click Reports
+    await this.reportsMenu.dblclick();
+    await this.page.waitForTimeout(2000);
+
+    // Click My Job Card
     await this.myJobCardButton.click();
 
     // Wait for navigation to job card page
@@ -52,8 +51,18 @@ export class DashboardPage {
   }
 
   async navigateToMonthlyAttendance() {
-    await this.employeeMenu.click();
+    // Wait for page to fully load
+    await this.page.waitForTimeout(3000);
+
+    // Click Self Service
     await this.selfServiceMenu.click();
+    await this.page.waitForTimeout(2000);
+
+    // Double click Reports
+    await this.reportsMenu.dblclick();
+    await this.page.waitForTimeout(2000);
+
+    // Click Monthly Attendance
     await this.monthlyAttendanceButton.click();
 
     // Wait for navigation to attendance page
@@ -83,9 +92,9 @@ export class DashboardPage {
   }
 
   async verifyDashboardLoaded() {
-    await expect(this.page).toHaveURL(/.*dashboard/);
-    await expect(this.employeeMenu).toBeVisible();
+    await expect(this.page).toHaveURL(/.*employee/);
     await expect(this.selfServiceMenu).toBeVisible();
+    await expect(this.reportsMenu).toBeVisible();
   }
 
   async verifyLoggedOut() {
@@ -98,7 +107,7 @@ export class DashboardPage {
 
   async isOnDashboard(): Promise<boolean> {
     try {
-      await this.page.waitForURL("**/dashboard**", { timeout: 5000 });
+      await this.page.waitForURL("**/employee/**", { timeout: 5000 });
       return true;
     } catch {
       return false;
