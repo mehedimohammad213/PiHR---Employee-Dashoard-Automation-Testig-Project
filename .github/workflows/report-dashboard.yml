@@ -8,13 +8,13 @@ on:
     branches: [main]
   schedule:
     # Run daily at 9 AM UTC
-    - cron: '0 9 * * *'
+    - cron: "0 9 * * *"
   workflow_dispatch:
     inputs:
       report_type:
-        description: 'Type of report to generate'
+        description: "Type of report to generate"
         required: true
-        default: 'comprehensive'
+        default: "comprehensive"
         type: choice
         options:
           - comprehensive
@@ -30,20 +30,20 @@ jobs:
   generate-dashboard:
     name: Generate Test Dashboard
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Create dashboard HTML
         run: |
           echo "Creating comprehensive test dashboard..."
@@ -83,7 +83,7 @@ jobs:
                       <p><strong>Generated:</strong> $(date)</p>
                       <p><strong>Environment:</strong> ${{ github.event.inputs.report_type || 'comprehensive' }}</p>
                   </div>
-                  
+
                   <div class="metrics-grid">
                       <div class="metric-card">
                           <div class="metric-title">Test Coverage</div>
@@ -106,7 +106,7 @@ jobs:
                           <p>No vulnerabilities detected</p>
                       </div>
                   </div>
-                  
+
                   <div class="report-section">
                       <h3>📊 Test Results Summary</h3>
                       <table>
@@ -152,7 +152,7 @@ jobs:
                           </tbody>
                       </table>
                   </div>
-                  
+
                   <div class="report-section">
                       <h3>📈 Performance Metrics</h3>
                       <table>
@@ -187,7 +187,7 @@ jobs:
                           </tbody>
                       </table>
                   </div>
-                  
+
                   <div class="report-section">
                       <h3>📋 Generated Reports</h3>
                       <ul>
@@ -199,7 +199,7 @@ jobs:
                           <li>✅ <strong>Executive Summary:</strong> High-level overview for stakeholders</li>
                       </ul>
                   </div>
-                  
+
                   <div class="report-section">
                       <h3>🎯 Recommendations</h3>
                       <ol>
@@ -211,7 +211,7 @@ jobs:
                           <li>📊 <strong>Track Metrics:</strong> Monitor performance and user feedback</li>
                       </ol>
                   </div>
-                  
+
                   <div class="report-section">
                       <h3>📞 Contact Information</h3>
                       <p><strong>DevOps Team:</strong> devops@company.com</p>
@@ -219,7 +219,7 @@ jobs:
                       <p><strong>Support:</strong> support@company.com</p>
                       <p><strong>Emergency:</strong> +1-555-0123</p>
                   </div>
-                  
+
                   <div class="footer">
                       <p>📊 <strong>Test Report Dashboard</strong> - Generated automatically by CI/CD pipeline</p>
                       <p>🔄 Next scheduled run: Tomorrow at 9:00 AM UTC</p>
@@ -229,7 +229,7 @@ jobs:
           </body>
           </html>
           EOF
-          
+
       - name: Upload dashboard
         uses: actions/upload-artifact@v4
         with:
@@ -242,29 +242,29 @@ jobs:
     name: Executive Summary Report
     runs-on: ubuntu-latest
     if: github.event.inputs.report_type == 'executive' || github.event.inputs.report_type == 'comprehensive'
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Create executive summary
         run: |
           echo "Creating executive summary report..."
           cat > executive-summary-report.md << EOF
           # Executive Summary - Test Report
-          
+
           ## 📋 Overview
           - **Report Type**: Executive Summary
           - **Environment**: ${{ github.event.inputs.report_type || 'comprehensive' }}
           - **Generated**: $(date)
           - **Status**: ✅ SUCCESSFUL
-          
+
           ## 🎯 Key Highlights
           - ✅ **100% Test Coverage** - All critical paths tested
           - ✅ **All Tests Passed** - No failures detected
           - ✅ **Performance Optimized** - Within acceptable limits
           - ✅ **Security Compliant** - No vulnerabilities found
-          
+
           ## 📊 Test Results
           | Metric | Status | Details |
           |--------|--------|---------|
@@ -272,35 +272,35 @@ jobs:
           | Test Execution | ✅ PASS | All tests successful |
           | Performance | ✅ GOOD | Response time: 1.2s |
           | Security | ✅ CLEAN | No vulnerabilities |
-          
+
           ## 🚀 Deployment Status
           - **Ready for Production**: ✅ YES
           - **Quality Gates**: ✅ ALL PASSED
           - **Performance Metrics**: ✅ ACCEPTABLE
           - **Security Scan**: ✅ CLEAN
-          
+
           ## 📈 Business Impact
           - **Risk Level**: LOW
           - **Deployment Confidence**: HIGH
           - **User Experience**: OPTIMIZED
           - **System Reliability**: EXCELLENT
-          
+
           ## 🎯 Recommendations
           1. ✅ **Proceed with Production Deployment**
           2. ✅ **Monitor Application Performance**
           3. ✅ **Track User Feedback**
           4. ✅ **Plan Next Release Cycle**
-          
+
           ## 📞 Next Steps
           - Deploy to production environment
           - Monitor application health
           - Collect user feedback
           - Plan future enhancements
-          
+
           ---
           *Report generated automatically by CI/CD pipeline*
           EOF
-          
+
       - name: Upload executive summary
         uses: actions/upload-artifact@v4
         with:
@@ -313,20 +313,20 @@ jobs:
     name: Technical Detailed Report
     runs-on: ubuntu-latest
     if: github.event.inputs.report_type == 'technical' || github.event.inputs.report_type == 'comprehensive'
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Generate technical report
         run: |
           echo "Creating technical detailed report..."
@@ -410,7 +410,7 @@ jobs:
             }
           }
           EOF
-          
+
       - name: Upload technical report
         uses: actions/upload-artifact@v4
         with:
@@ -423,22 +423,22 @@ jobs:
     name: Performance Report
     runs-on: ubuntu-latest
     if: github.event.inputs.report_type == 'performance' || github.event.inputs.report_type == 'comprehensive'
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Create performance report
         run: |
           echo "Creating performance report..."
           cat > performance-report.md << EOF
           # Performance Test Report
-          
+
           ## 📊 Performance Overview
           - **Environment**: ${{ github.event.inputs.report_type || 'comprehensive' }}
           - **Test Date**: $(date)
           - **Status**: ✅ PERFORMANCE ACCEPTABLE
-          
+
           ## 🚀 Response Time Metrics
           | Metric | Value | Status |
           |--------|-------|--------|
@@ -446,7 +446,7 @@ jobs:
           | 95th Percentile | 2.1s | ✅ Acceptable |
           | 99th Percentile | 3.5s | ✅ Good |
           | Maximum Response Time | 4.2s | ✅ Acceptable |
-          
+
           ## 💾 Resource Utilization
           | Resource | Peak Usage | Average Usage | Status |
           |----------|------------|---------------|--------|
@@ -454,20 +454,20 @@ jobs:
           | CPU | 65% | 45% | ✅ Normal |
           | Disk I/O | 15MB/s | 8MB/s | ✅ Good |
           | Network | 2.5MB/s | 1.8MB/s | ✅ Good |
-          
+
           ## 📈 Throughput Metrics
           - **Requests per Second**: 1000
           - **Concurrent Users**: 500
           - **Error Rate**: 0.01%
           - **Availability**: 99.9%
-          
+
           ## 🎯 Performance Recommendations
           1. ✅ **Current Performance is Acceptable**
           2. ✅ **No Immediate Optimizations Required**
           3. 📊 **Monitor Memory Usage During Peak Load**
           4. 📊 **Consider Caching for Frequently Accessed Data**
           5. 📊 **Optimize Database Queries if Needed**
-          
+
           ## 📊 Load Test Results
           | Load Level | Response Time | Throughput | Error Rate |
           |------------|---------------|------------|------------|
@@ -475,22 +475,22 @@ jobs:
           | Medium (250 users) | 1.2s | 500 req/s | 0% |
           | High (500 users) | 1.8s | 1000 req/s | 0.01% |
           | Peak (750 users) | 2.5s | 1200 req/s | 0.05% |
-          
+
           ## 🔍 Performance Bottlenecks
           - ✅ **No Critical Bottlenecks Detected**
           - 📊 **Minor Optimization Opportunities Identified**
           - 📊 **Database Query Optimization Recommended**
-          
+
           ## 📈 Performance Trends
           - **Response Time**: Stable over time
           - **Throughput**: Consistent performance
           - **Error Rate**: Minimal and decreasing
           - **Resource Usage**: Optimized and efficient
-          
+
           ---
           *Performance report generated automatically by CI/CD pipeline*
           EOF
-          
+
       - name: Upload performance report
         uses: actions/upload-artifact@v4
         with:
@@ -502,21 +502,27 @@ jobs:
   dashboard-notifications:
     name: Dashboard Notifications
     runs-on: ubuntu-latest
-    needs: [generate-dashboard, executive-summary-report, technical-report, performance-report]
-    
+    needs:
+      [
+        generate-dashboard,
+        executive-summary-report,
+        technical-report,
+        performance-report,
+      ]
+
     steps:
       - name: Download all reports
         uses: actions/download-artifact@v4
         with:
           name: test-dashboard-${{ github.event.inputs.report_type || 'comprehensive' }}
           path: dashboards/
-          
+
       - name: Send dashboard notification
         run: |
           echo "Sending dashboard notification..."
           # Add your notification logic here
           echo "Dashboard reports generated successfully"
-          
+
       - name: Create GitHub release
         run: |
           echo "Creating GitHub release for reports..."

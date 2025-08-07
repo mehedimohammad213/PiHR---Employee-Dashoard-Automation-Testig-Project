@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to generate report for'
+        description: "Environment to generate report for"
         required: true
-        default: 'staging'
+        default: "staging"
         type: choice
         options:
           - staging
@@ -26,23 +26,23 @@ jobs:
     name: Generate Test Reports
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
-        
+
       - name: Run comprehensive tests
         run: |
           echo "Running comprehensive test suite..."
@@ -50,16 +50,16 @@ jobs:
           npm run bdd
           npm run tdd
           npm run test:performance || echo "Performance tests not configured"
-          
+
       - name: Generate Allure report
         run: npm run allure:generate
-        
+
       - name: Generate HTML test report
         run: |
           echo "Generating HTML test report..."
           npx playwright show-report --host 0.0.0.0 --port 9323 &
           sleep 10
-          
+
       - name: Create test summary
         run: |
           echo "Creating test summary..."
@@ -72,7 +72,7 @@ jobs:
           echo "- TDD Tests: Completed" >> test-summary.md
           echo "- Performance Tests: Completed" >> test-summary.md
           echo "- Allure Reports: Generated" >> test-summary.md
-          
+
       - name: Upload test reports
         uses: actions/upload-artifact@v4
         with:
@@ -89,52 +89,52 @@ jobs:
     name: Deployment Health Report
     runs-on: ubuntu-latest
     needs: [generate-test-reports]
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Download test reports
         uses: actions/download-artifact@v4
         with:
           name: test-reports-${{ github.event.inputs.environment || 'staging' }}
           path: test-reports/
-          
+
       - name: Create deployment health report
         run: |
           echo "Creating deployment health report..."
           cat > deployment-health-report.md << EOF
           # Deployment Health Report
-          
+
           ## Environment: ${{ github.event.inputs.environment || 'staging' }}
           ## Deployment Date: $(date)
           ## Status: ✅ Healthy
-          
+
           ### Test Coverage
           - ✅ Playwright Tests: PASSED
-          - ✅ BDD Tests: PASSED  
+          - ✅ BDD Tests: PASSED
           - ✅ TDD Tests: PASSED
           - ✅ Performance Tests: PASSED
           - ✅ Security Scan: PASSED
-          
+
           ### Reports Generated
           - ✅ Allure Report: Available
           - ✅ HTML Report: Available
           - ✅ Cucumber Report: Available
           - ✅ Test Summary: Available
-          
+
           ### Next Steps
           - Review test reports for any issues
           - Monitor application performance
           - Check for any security vulnerabilities
           - Validate user acceptance criteria
-          
+
           ### Contact Information
           - DevOps Team: devops@company.com
           - QA Team: qa@company.com
           - Support: support@company.com
           EOF
-          
+
       - name: Upload deployment health report
         uses: actions/upload-artifact@v4
         with:
@@ -147,20 +147,20 @@ jobs:
     name: Send Notifications
     runs-on: ubuntu-latest
     needs: [deployment-health-report]
-    
+
     steps:
       - name: Download reports
         uses: actions/download-artifact@v4
         with:
           name: test-reports-${{ github.event.inputs.environment || 'staging' }}
           path: test-reports/
-          
+
       - name: Download health report
         uses: actions/download-artifact@v4
         with:
           name: deployment-health-report-${{ github.event.inputs.environment || 'staging' }}
           path: health-reports/
-          
+
       - name: Send Slack notification
         run: |
           echo "Sending Slack notification..."
@@ -190,14 +190,14 @@ jobs:
               }' \
               ${{ secrets.SLACK_WEBHOOK_URL }}
           fi
-          
+
       - name: Send email notification
         run: |
           echo "Sending email notification..."
           # Add your email service configuration here
           # Example using curl to send email via API
           echo "Test reports generated for ${{ github.event.inputs.environment || 'staging' }} environment"
-          
+
       - name: Create GitHub issue for report review
         run: |
           echo "Creating GitHub issue for report review..."
@@ -210,20 +210,20 @@ jobs:
     name: Performance Metrics
     runs-on: ubuntu-latest
     needs: [generate-test-reports]
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Generate performance metrics
         run: |
           echo "Generating performance metrics..."
@@ -246,7 +246,7 @@ jobs:
             ]
           }
           EOF
-          
+
       - name: Upload performance metrics
         uses: actions/upload-artifact@v4
         with:
@@ -259,43 +259,43 @@ jobs:
     name: Executive Summary
     runs-on: ubuntu-latest
     needs: [deployment-health-report, performance-metrics]
-    
+
     steps:
       - name: Download all reports
         uses: actions/download-artifact@v4
         with:
           name: test-reports-${{ github.event.inputs.environment || 'staging' }}
           path: test-reports/
-          
+
       - name: Download health report
         uses: actions/download-artifact@v4
         with:
           name: deployment-health-report-${{ github.event.inputs.environment || 'staging' }}
           path: health-reports/
-          
+
       - name: Download performance metrics
         uses: actions/download-artifact@v4
         with:
           name: performance-metrics-${{ github.event.inputs.environment || 'staging' }}
           path: performance-metrics/
-          
+
       - name: Create executive summary
         run: |
           echo "Creating executive summary..."
           cat > executive-summary.md << EOF
           # Executive Summary - Test Report
-          
+
           ## Deployment Overview
           - **Environment**: ${{ github.event.inputs.environment || 'staging' }}
           - **Deployment Date**: $(date)
           - **Status**: ✅ SUCCESSFUL
-          
+
           ## Key Metrics
           - **Test Coverage**: 100%
           - **Test Execution**: All tests passed
           - **Performance**: Within acceptable limits
           - **Security**: No vulnerabilities detected
-          
+
           ## Test Results Summary
           | Test Type | Status | Coverage |
           |-----------|--------|----------|
@@ -304,30 +304,30 @@ jobs:
           | TDD | ✅ PASS | 100% |
           | Performance | ✅ PASS | 100% |
           | Security | ✅ PASS | 100% |
-          
+
           ## Reports Generated
           - ✅ Allure Test Report
-          - ✅ HTML Test Report  
+          - ✅ HTML Test Report
           - ✅ Cucumber BDD Report
           - ✅ Performance Metrics
           - ✅ Deployment Health Report
-          
+
           ## Recommendations
           1. ✅ Deployment is ready for production
           2. ✅ All quality gates passed
           3. ✅ Performance metrics are acceptable
           4. ✅ Security scan completed successfully
-          
+
           ## Next Steps
           - Monitor application in production
           - Track performance metrics
           - Review user feedback
           - Plan next deployment cycle
-          
+
           ---
           *Report generated automatically by CI/CD pipeline*
           EOF
-          
+
       - name: Upload executive summary
         uses: actions/upload-artifact@v4
         with:
@@ -340,37 +340,37 @@ jobs:
     name: Archive Reports
     runs-on: ubuntu-latest
     needs: [executive-summary]
-    
+
     steps:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           name: test-reports-${{ github.event.inputs.environment || 'staging' }}
           path: archives/test-reports/
-          
+
       - name: Download health report
         uses: actions/download-artifact@v4
         with:
           name: deployment-health-report-${{ github.event.inputs.environment || 'staging' }}
           path: archives/health-reports/
-          
+
       - name: Download performance metrics
         uses: actions/download-artifact@v4
         with:
           name: performance-metrics-${{ github.event.inputs.environment || 'staging' }}
           path: archives/performance-metrics/
-          
+
       - name: Download executive summary
         uses: actions/download-artifact@v4
         with:
           name: executive-summary-${{ github.event.inputs.environment || 'staging' }}
           path: archives/executive-summary/
-          
+
       - name: Create archive
         run: |
           echo "Creating archive of all reports..."
           tar -czf test-reports-archive-${{ github.event.inputs.environment || 'staging' }}-$(date +%Y%m%d).tar.gz archives/
-          
+
       - name: Upload archive
         uses: actions/upload-artifact@v4
         with:

@@ -5,6 +5,7 @@ This guide covers the comprehensive test report generation system for the PiHR P
 ## 📊 Report Generation Overview
 
 ### Benefits
+
 - **Automatic Reports**: Reports generated automatically after deployment
 - **Multiple Formats**: HTML, JSON, Markdown, and interactive dashboards
 - **Comprehensive Coverage**: All test types covered (Playwright, BDD, TDD, Performance)
@@ -15,6 +16,7 @@ This guide covers the comprehensive test report generation system for the PiHR P
 ## 🚀 Automatic Report Generation
 
 ### Workflow Triggers
+
 - **Post-Deployment**: Automatically runs after successful deployment
 - **Manual Trigger**: Can be triggered manually for any environment
 - **Scheduled**: Daily reports at 9 AM UTC
@@ -23,6 +25,7 @@ This guide covers the comprehensive test report generation system for the PiHR P
 ### Report Types
 
 #### 1. Comprehensive Reports
+
 ```bash
 # Generate all reports
 npm run report:comprehensive
@@ -38,6 +41,7 @@ npm run report:comprehensive
 ```
 
 #### 2. Executive Summary
+
 ```bash
 # Generate executive summary
 npm run report:executive
@@ -51,6 +55,7 @@ npm run report:executive
 ```
 
 #### 3. Technical Reports
+
 ```bash
 # Generate technical details
 npm run report:technical
@@ -64,6 +69,7 @@ npm run report:technical
 ```
 
 #### 4. Performance Reports
+
 ```bash
 # Generate performance analysis
 npm run report:performance
@@ -81,6 +87,7 @@ npm run report:performance
 ### 1. Auto Test Report Generation (`.github/workflows/test-report.yml`)
 
 #### Triggers
+
 ```yaml
 on:
   workflow_run:
@@ -90,9 +97,9 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to generate report for'
+        description: "Environment to generate report for"
         required: true
-        default: 'staging'
+        default: "staging"
         type: choice
         options:
           - staging
@@ -100,6 +107,7 @@ on:
 ```
 
 #### Jobs
+
 1. **Generate Test Reports**: Runs comprehensive test suite
 2. **Deployment Health Report**: Creates health status report
 3. **Send Notifications**: Slack and email notifications
@@ -110,6 +118,7 @@ on:
 ### 2. Test Report Dashboard (`.github/workflows/report-dashboard.yml`)
 
 #### Features
+
 - **Interactive HTML Dashboard**: Beautiful, responsive interface
 - **Multiple Report Types**: Comprehensive, executive, technical, performance
 - **Scheduled Generation**: Daily at 9 AM UTC
@@ -119,18 +128,21 @@ on:
 ## 🎯 Report Components
 
 ### Test Execution Summary
+
 ```markdown
 ## Test Results Summary
-| Test Type | Status | Coverage | Execution Time |
-|-----------|--------|----------|----------------|
-| Playwright | ✅ PASS | 100% | 2m 30s |
-| BDD | ✅ PASS | 100% | 1m 45s |
-| TDD | ✅ PASS | 100% | 1m 15s |
-| Performance | ✅ PASS | 100% | 3m 20s |
-| Security | ✅ PASS | 100% | 45s |
+
+| Test Type   | Status  | Coverage | Execution Time |
+| ----------- | ------- | -------- | -------------- |
+| Playwright  | ✅ PASS | 100%     | 2m 30s         |
+| BDD         | ✅ PASS | 100%     | 1m 45s         |
+| TDD         | ✅ PASS | 100%     | 1m 15s         |
+| Performance | ✅ PASS | 100%     | 3m 20s         |
+| Security    | ✅ PASS | 100%     | 45s            |
 ```
 
 ### Performance Metrics
+
 ```json
 {
   "performance_metrics": {
@@ -156,8 +168,10 @@ on:
 ```
 
 ### Quality Gates
+
 ```markdown
 ## Quality Gates Status
+
 - ✅ Test Coverage: PASS
 - ✅ Test Execution: PASS
 - ✅ Performance: PASS
@@ -168,6 +182,7 @@ on:
 ## 📊 Dashboard Features
 
 ### Interactive HTML Dashboard
+
 - **Responsive Design**: Works on all devices
 - **Real-time Metrics**: Live performance indicators
 - **Visual Charts**: Easy-to-understand graphs
@@ -175,6 +190,7 @@ on:
 - **Search and Filter**: Advanced filtering capabilities
 
 ### Dashboard Sections
+
 1. **Overview Metrics**: Key performance indicators
 2. **Test Results**: Detailed test execution data
 3. **Performance Metrics**: Response times and resource usage
@@ -185,6 +201,7 @@ on:
 ## 🔧 Configuration
 
 ### Environment Variables
+
 ```bash
 # GitHub Secrets for notifications
 SLACK_WEBHOOK_URL=https://hooks.slack.com/services/...
@@ -196,6 +213,7 @@ ARCHIVE_RETENTION_DAYS=90
 ```
 
 ### Report Retention
+
 ```yaml
 # Artifact retention settings
 retention-days: 30  # Regular reports
@@ -205,6 +223,7 @@ retention-days: 90  # Archived reports
 ## 📈 Report Types and Usage
 
 ### 1. Comprehensive Report
+
 ```bash
 # Generate comprehensive report
 npm run report:comprehensive
@@ -217,6 +236,7 @@ npm run report:comprehensive
 ```
 
 ### 2. Executive Summary
+
 ```bash
 # Generate executive summary
 npm run report:executive
@@ -229,6 +249,7 @@ npm run report:executive
 ```
 
 ### 3. Technical Report
+
 ```bash
 # Generate technical report
 npm run report:technical
@@ -241,6 +262,7 @@ npm run report:technical
 ```
 
 ### 4. Performance Report
+
 ```bash
 # Generate performance report
 npm run report:performance
@@ -255,6 +277,7 @@ npm run report:performance
 ## 🚀 Quick Start Commands
 
 ### Local Report Generation
+
 ```bash
 # Generate all reports locally
 npm run report:full
@@ -270,6 +293,7 @@ npm run report:clean
 ```
 
 ### Docker Report Generation
+
 ```bash
 # Generate reports in Docker
 docker run --rm -v $(pwd)/reports:/app/reports pihr-playwright-tests npm run report:comprehensive
@@ -281,6 +305,7 @@ docker run --rm -p 8080:8080 -v $(pwd)/reports:/app/reports pihr-playwright-test
 ## 📊 Report Artifacts
 
 ### Generated Files
+
 ```
 reports/
 ├── test-dashboard.html          # Interactive dashboard
@@ -296,6 +321,7 @@ reports/
 ```
 
 ### Artifact Management
+
 ```yaml
 # Upload artifacts to GitHub
 - name: Upload test reports
@@ -313,6 +339,7 @@ reports/
 ## 🔔 Notifications
 
 ### Slack Notifications
+
 ```yaml
 # Send Slack notification
 - name: Send Slack notification
@@ -334,6 +361,7 @@ reports/
 ```
 
 ### Email Notifications
+
 ```yaml
 # Send email notification
 - name: Send email notification
@@ -346,6 +374,7 @@ reports/
 ## 📈 Monitoring and Analytics
 
 ### Key Metrics
+
 - **Test Coverage**: Percentage of code covered by tests
 - **Test Execution**: Success/failure rates
 - **Performance**: Response times and resource usage
@@ -353,6 +382,7 @@ reports/
 - **Quality Gates**: Overall deployment health
 
 ### Trends Analysis
+
 - **Historical Data**: Track metrics over time
 - **Performance Trends**: Monitor response time changes
 - **Coverage Trends**: Track test coverage improvements
@@ -363,35 +393,39 @@ reports/
 ### Common Issues
 
 1. **Report Generation Fails**
+
    ```bash
    # Check test execution
    npm test
    npm run bdd
    npm run tdd
-   
+
    # Verify Allure installation
    npm install -g allure-commandline
    ```
 
 2. **Dashboard Not Loading**
+
    ```bash
    # Check file permissions
    chmod +r test-dashboard.html
-   
+
    # Verify HTML file
    open test-dashboard.html
    ```
 
 3. **Notifications Not Working**
+
    ```bash
    # Check GitHub secrets
    echo ${{ secrets.SLACK_WEBHOOK_URL }}
-   
+
    # Test webhook manually
    curl -X POST $SLACK_WEBHOOK_URL
    ```
 
 ### Debug Commands
+
 ```bash
 # Check report generation
 npm run report:generate --verbose
@@ -407,6 +441,7 @@ open http://localhost:8080/test-dashboard.html
 ## 📚 Best Practices
 
 ### Report Generation
+
 1. **Automate Everything**: Use CI/CD for automatic generation
 2. **Multiple Formats**: Provide HTML, JSON, and Markdown
 3. **Retention Policy**: Set appropriate retention periods
@@ -414,6 +449,7 @@ open http://localhost:8080/test-dashboard.html
 5. **Version Control**: Track report changes over time
 
 ### Dashboard Design
+
 1. **Responsive Layout**: Work on all screen sizes
 2. **Clear Metrics**: Easy-to-understand KPIs
 3. **Interactive Elements**: Allow drill-down capabilities
@@ -421,6 +457,7 @@ open http://localhost:8080/test-dashboard.html
 5. **Real-time Updates**: Live data when possible
 
 ### Notifications
+
 1. **Appropriate Channels**: Use Slack for teams, email for stakeholders
 2. **Clear Messages**: Include key metrics and status
 3. **Actionable Content**: Provide next steps
@@ -430,6 +467,7 @@ open http://localhost:8080/test-dashboard.html
 ## 📈 Advanced Features
 
 ### Custom Report Templates
+
 ```html
 <!-- Custom dashboard template -->
 <div class="custom-metric">
@@ -439,14 +477,16 @@ open http://localhost:8080/test-dashboard.html
 ```
 
 ### API Integration
+
 ```javascript
 // Fetch report data via API
-fetch('/api/reports/latest')
-  .then(response => response.json())
-  .then(data => updateDashboard(data));
+fetch("/api/reports/latest")
+  .then((response) => response.json())
+  .then((data) => updateDashboard(data));
 ```
 
 ### Automated Analysis
+
 ```python
 # Analyze report trends
 import json
