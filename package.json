@@ -1,8 +1,27 @@
 {
   "name": "playwright-test-project",
+  "description": "A Playwright test automation project with BDD and TDD support",
   "version": "1.0.0",
-  "description": "A Playwright test automation project",
-  "main": "index.js",
+  "keywords": [
+    "playwright",
+    "testing",
+    "automation",
+    "bdd",
+    "tdd",
+    "cucumber",
+    "allure"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.0.0",
+    "allure-playwright": "^2.7.0",
+    "@cucumber/cucumber": "^12.1.0",
+    "@types/cucumber": "^7.0.3",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  },
   "scripts": {
     "test": "playwright test",
     "test:headed": "playwright test --headed",
@@ -15,18 +34,19 @@
     "test:allure": "playwright test --reporter=allure-playwright",
     "allure:generate": "allure generate allure-results --clean",
     "allure:open": "allure open",
-    "allure:serve": "allure serve allure-results"
-  },
-  "keywords": [
-    "playwright",
-    "testing",
-    "automation",
-    "e2e"
-  ],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@playwright/test": "^1.40.0",
-    "allure-playwright": "^3.3.3"
+    "allure:serve": "allure serve allure-results",
+    "bdd": "cucumber-js",
+    "bdd:headed": "cucumber-js --world-parameters '{\"headless\": false}'",
+    "bdd:report": "cucumber-js --format html:cucumber-report.html",
+    "bdd:tags": "cucumber-js --tags",
+    "tdd": "playwright test tests/tdd/",
+    "tdd:headed": "playwright test tests/tdd/ --headed",
+    "tdd:debug": "playwright test tests/tdd/ --debug",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
+    "test:login": "playwright test --grep @login",
+    "test:jobcard": "playwright test --grep @jobcard",
+    "test:attendance": "playwright test --grep @attendance",
+    "test:logout": "playwright test --grep @logout"
   }
 }
