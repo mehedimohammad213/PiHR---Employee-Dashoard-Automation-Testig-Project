@@ -5,12 +5,14 @@ This project now supports both **Behavior Driven Development (BDD)** and **Test 
 ## 🎯 Overview
 
 ### BDD (Behavior Driven Development)
+
 - **Gherkin Syntax**: Human-readable feature files using Given-When-Then format
 - **Cucumber Integration**: Full Cucumber.js support with TypeScript
 - **Business-Focused**: Tests written in business language
 - **Collaboration**: Bridges gap between technical and non-technical stakeholders
 
 ### TDD (Test Driven Development)
+
 - **Test-First Approach**: Write tests before implementing features
 - **Red-Green-Refactor**: Classic TDD cycle
 - **Feature Validation**: Tests for features that don't exist yet
@@ -89,6 +91,7 @@ npm run test:logout
 ## 📝 BDD Feature Examples
 
 ### Login Feature
+
 ```gherkin
 Feature: Employee Login
   As an employee
@@ -106,6 +109,7 @@ Feature: Employee Login
 ```
 
 ### Job Card Feature
+
 ```gherkin
 Feature: Job Card Management
   As an employee
@@ -126,44 +130,45 @@ Feature: Job Card Management
 ## 🧪 TDD Examples
 
 ### Test-First Development
+
 ```typescript
-test('should validate empty username field', async ({ page }) => {
+test("should validate empty username field", async ({ page }) => {
   // Arrange: Navigate to login page
-  await page.goto('https://webable.pihr.xyz/login');
-  
+  await page.goto("https://webable.pihr.xyz/login");
+
   // Act: Try to login with empty username
   const frame = page.locator('iframe[title="Login Page"]').contentFrame();
-  await frame!.getByRole('textbox', { name: 'Password' }).fill('testpassword');
-  await frame!.getByRole('button', { name: 'Login' }).click();
-  
+  await frame!.getByRole("textbox", { name: "Password" }).fill("testpassword");
+  await frame!.getByRole("button", { name: "Login" }).click();
+
   // Assert: Should show validation error (this test might fail initially)
   // This is the TDD approach - write the test first, then implement the feature
   try {
-    await expect(page.locator('.error-message')).toBeVisible();
+    await expect(page.locator(".error-message")).toBeVisible();
   } catch (error) {
-    console.log('Validation feature not implemented yet - this is expected in TDD');
+    console.log(
+      "Validation feature not implemented yet - this is expected in TDD"
+    );
   }
 });
 ```
 
 ### TDD Utility Functions
+
 ```typescript
 const tddUtils = new TDDUtils(page);
 
 // Test for feature that doesn't exist yet
-await tddUtils.testFeatureNotYetImplemented(
-  'Username validation',
-  async () => {
-    await page.fill('[name="username"]', '');
-    await page.click('button[type="submit"]');
-    await expect(page.locator('.error-message')).toBeVisible();
-  }
-);
+await tddUtils.testFeatureNotYetImplemented("Username validation", async () => {
+  await page.fill('[name="username"]', "");
+  await page.click('button[type="submit"]');
+  await expect(page.locator(".error-message")).toBeVisible();
+});
 
 // Test performance requirements
 await tddUtils.testPerformanceRequirement(
-  'Page load',
-  async () => await page.goto('https://example.com'),
+  "Page load",
+  async () => await page.goto("https://example.com"),
   3000 // 3 seconds max
 );
 ```
@@ -171,19 +176,21 @@ await tddUtils.testPerformanceRequirement(
 ## 🔧 Configuration
 
 ### Cucumber Configuration (cucumber.js)
+
 ```javascript
 module.exports = {
   default: {
-    requireModule: ['ts-node/register'],
-    require: ['features/step-definitions/**/*.ts', 'features/support/**/*.ts'],
-    format: ['progress-bar', 'html:cucumber-report.html'],
-    formatOptions: { snippetInterface: 'async-await' },
-    publishQuiet: true
-  }
+    requireModule: ["ts-node/register"],
+    require: ["features/step-definitions/**/*.ts", "features/support/**/*.ts"],
+    format: ["progress-bar", "html:cucumber-report.html"],
+    formatOptions: { snippetInterface: "async-await" },
+    publishQuiet: true,
+  },
 };
 ```
 
 ### Package.json Scripts
+
 ```json
 {
   "scripts": {
@@ -217,6 +224,7 @@ module.exports = {
 ## 📊 Test Categories
 
 ### BDD Tags
+
 - `@smoke`: Critical path tests
 - `@login`: Authentication tests
 - `@jobcard`: Job card functionality
@@ -227,6 +235,7 @@ module.exports = {
 - `@security`: Security-related tests
 
 ### TDD Categories
+
 - `@tdd`: Test-driven development examples
 - `@performance`: Performance testing
 - `@security`: Security testing
@@ -236,6 +245,7 @@ module.exports = {
 ## 🔄 Development Workflow
 
 ### BDD Workflow
+
 1. **Write Feature**: Create `.feature` file with scenarios
 2. **Generate Steps**: Cucumber generates step definitions
 3. **Implement Steps**: Write step implementation code
@@ -243,6 +253,7 @@ module.exports = {
 5. **Refine**: Update scenarios based on results
 
 ### TDD Workflow
+
 1. **Write Test**: Create test for non-existent feature
 2. **Run Test**: Test fails (Red)
 3. **Implement Feature**: Write minimal code to pass test
@@ -253,11 +264,13 @@ module.exports = {
 ## 📈 Reporting
 
 ### BDD Reports
+
 - **Cucumber HTML**: `cucumber-report.html`
 - **Console Output**: Progress bar and step details
 - **Allure Integration**: Can be integrated with Allure
 
 ### TDD Reports
+
 - **Playwright HTML**: Standard Playwright reports
 - **Allure Integration**: Full Allure reporting support
 - **Console Output**: Detailed test results
@@ -265,6 +278,7 @@ module.exports = {
 ## 🎯 Best Practices
 
 ### BDD Best Practices
+
 1. **Use Business Language**: Write scenarios in business terms
 2. **Keep Scenarios Simple**: One scenario per behavior
 3. **Use Background**: Common setup steps
@@ -272,6 +286,7 @@ module.exports = {
 5. **Reuse Steps**: Create reusable step definitions
 
 ### TDD Best Practices
+
 1. **Write Tests First**: Always write test before implementation
 2. **Keep Tests Simple**: One assertion per test
 3. **Test Edge Cases**: Include boundary conditions
@@ -281,6 +296,7 @@ module.exports = {
 ## 🚀 Advanced Features
 
 ### BDD Advanced Features
+
 - **Data Tables**: Parameterized scenarios
 - **Scenario Outlines**: Multiple data sets
 - **Hooks**: Setup and teardown
@@ -288,6 +304,7 @@ module.exports = {
 - **Custom Formatters**: Custom reporting
 
 ### TDD Advanced Features
+
 - **Performance Testing**: Built-in performance validation
 - **Security Testing**: Security requirement validation
 - **Accessibility Testing**: Accessibility requirement validation
