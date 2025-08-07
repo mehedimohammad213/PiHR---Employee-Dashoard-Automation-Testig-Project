@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  playwright-tests:
+    build: .
+    container_name: pihr-playwright-tests
+    environment:
+      - NODE_ENV=production
+      - PLAYWRIGHT_HEADLESS=true
+    volumes:
+      - ./test-results:/app/test-results
+      - ./allure-results:/app/allure-results
+      - ./allure-report:/app/allure-report
+      - ./screenshots:/app/screenshots
+    networks:
+      - test-network
+
+  allure-server:
+    build: .
+    container_name: pihr-allure-server
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./allure-results:/app/allure-results
+      - ./allure-report:/app/allure-report
+    command: ["npm", "run", "allure:serve"]
+    networks:
+      - test-network
+    depends_on:
+      - playwright-tests
+
+  bdd-tests:
+    build: .
+    container_name: pihr-bdd-tests
+    environment:
+      - NODE_ENV=production
+      - PLAYWRIGHT_HEADLESS=true
+    volumes:
+      - ./test-results:/app/test-results
+      - ./cucumber-report.html:/app/cucumber-report.html
+    networks:
+      - test-network
+    command: ["npm", "run", "bdd"]
+
+  tdd-tests:
+    build: .
+    container_name: pihr-tdd-tests
+    environment:
+      - NODE_ENV=production
+      - PLAYWRIGHT_HEADLESS=true
+    volumes:
+      - ./test-results:/app/test-results
+      - ./allure-results:/app/allure-results
+    networks:
+      - test-network
+    command: ["npm", "run", "tdd"]
+
+networks:
+  test-network:
+    driver: bridge

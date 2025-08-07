@@ -9,7 +9,9 @@
     "bdd",
     "tdd",
     "cucumber",
-    "allure"
+    "allure",
+    "docker",
+    "ci-cd"
   ],
   "author": "Your Name",
   "license": "MIT",
@@ -47,6 +49,31 @@
     "test:login": "playwright test --grep @login",
     "test:jobcard": "playwright test --grep @jobcard",
     "test:attendance": "playwright test --grep @attendance",
-    "test:logout": "playwright test --grep @logout"
+    "test:logout": "playwright test --grep @logout",
+    "test:performance": "playwright test tests/tdd/ --grep @performance",
+    "test:unit": "echo 'Unit tests not configured'",
+    "lint": "echo 'Linting not configured'",
+    "docker:build": "docker build -t pihr-playwright-tests .",
+    "docker:run": "docker run --rm pihr-playwright-tests",
+    "docker:test": "docker run --rm -v $(pwd)/test-results:/app/test-results -v $(pwd)/allure-results:/app/allure-results pihr-playwright-tests npm test",
+    "docker:bdd": "docker run --rm -v $(pwd)/test-results:/app/test-results -v $(pwd)/cucumber-report.html:/app/cucumber-report.html pihr-playwright-tests npm run bdd",
+    "docker:tdd": "docker run --rm -v $(pwd)/test-results:/app/test-results -v $(pwd)/allure-results:/app/allure-results pihr-playwright-tests npm run tdd",
+    "docker:allure": "docker run --rm -p 8080:8080 -v $(pwd)/allure-results:/app/allure-results -v $(pwd)/allure-report:/app/allure-report pihr-playwright-tests npm run allure:serve",
+    "docker:compose": "docker-compose up --build",
+    "docker:compose:down": "docker-compose down",
+    "docker:compose:test": "docker-compose run --rm playwright-tests",
+    "docker:compose:bdd": "docker-compose run --rm bdd-tests",
+    "docker:compose:tdd": "docker-compose run --rm tdd-tests",
+    "docker:compose:allure": "docker-compose up allure-server",
+    "ci:test": "npm ci && npx playwright install --with-deps && npm test",
+    "ci:bdd": "npm ci && npx playwright install --with-deps && npm run bdd",
+    "ci:tdd": "npm ci && npx playwright install --with-deps && npm run tdd",
+    "ci:allure": "npm ci && npx playwright install --with-deps && npm run test:allure && npm run allure:generate",
+    "security:audit": "npm audit --audit-level=moderate",
+    "security:fix": "npm audit fix",
+    "clean": "rm -rf node_modules test-results allure-results allure-report screenshots cucumber-report.html",
+    "clean:docker": "docker system prune -f && docker image prune -f",
+    "build:all": "npm run docker:build && npm run docker:compose",
+    "test:all": "npm test && npm run bdd && npm run tdd && npm run test:allure"
   }
 }
