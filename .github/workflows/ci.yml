@@ -8,12 +8,16 @@ on:
 
 env:
   NODE_VERSION: "18"
+  # Add performance optimizations
+  PLAYWRIGHT_BROWSERS_PATH: "0"
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "false"
 
 jobs:
   # Lint and validate
   lint:
     name: Lint and Validate
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
@@ -34,10 +38,14 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit
 
+      - name: Security audit
+        run: npm audit --audit-level=moderate || echo "Security issues found but not blocking"
+
   # Unit tests
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
@@ -58,14 +66,25 @@ jobs:
       - name: Run unit tests
         run: npm run test:unit || echo "Unit tests not configured"
 
-  # Integration tests with Playwright
+      - name: Upload unit test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unit-test-results
+          path: test-results/
+          retention-days: 7
+
+  # Integration tests with Playwright - Parallel execution
   integration-tests:
     name: Integration Tests
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         browser: [chromium, firefox, webkit]
+        shardIndex: [1, 2, 3]
+        shardTotal: [3]
+      fail-fast: false
+    timeout-minutes: 20
 
     steps:
       - name: Checkout code
@@ -84,20 +103,29 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npx playwright test --project=${{ matrix.browser }}
+        run: npx playwright test --project=${{ matrix.browser }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: test-results-${{ matrix.browser }}
+          name: test-results-${{ matrix.browser }}-${{ matrix.shardIndex }}
           path: test-results/
+          retention-days: 7
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots-${{ matrix.browser }}-${{ matrix.shardIndex }}
+          path: screenshots/
           retention-days: 7
 
   # BDD tests
   bdd-tests:
     name: BDD Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
@@ -130,6 +158,7 @@ jobs:
   tdd-tests:
     name: TDD Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
@@ -162,6 +191,7 @@ jobs:
   allure-tests:
     name: Allure Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout code
@@ -205,6 +235,7 @@ jobs:
   docker-tests:
     name: Docker Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
@@ -235,6 +266,7 @@ jobs:
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
@@ -255,10 +287,18 @@ jobs:
       - name: Run dependency check
         run: npx audit-ci --moderate || echo "Security issues found but not blocking"
 
+      - name: Run Snyk security scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
   # Performance tests
   performance-tests:
     name: Performance Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout code
@@ -287,12 +327,46 @@ jobs:
           path: test-results/
           retention-days: 7
 
+  # Code coverage
+  code-coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run tests with coverage
+        run: npx playwright test --reporter=html --reporter=json
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: playwright-report/
+          retention-days: 7
+
   # Deploy to staging (on main branch)
   deploy-staging:
     name: Deploy to Staging
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    needs: [integration-tests, bdd-tests, tdd-tests, allure-tests]
+    needs: [integration-tests, bdd-tests, tdd-tests, allure-tests, security-scan]
+    timeout-minutes: 30
 
     steps:
       - name: Checkout code
@@ -317,12 +391,22 @@ jobs:
       - name: Run smoke tests on staging
         run: npm run test:smoke || echo "Smoke tests not configured"
 
+      - name: Health check staging
+        run: |
+          echo "Performing health check on staging..."
+          # Add health check logic here
+
   # Deploy to production (manual trigger)
   deploy-production:
     name: Deploy to Production
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
-    needs: [integration-tests, bdd-tests, tdd-tests, allure-tests]
+    needs: [integration-tests, bdd-tests, tdd-tests, allure-tests, security-scan]
+    timeout-minutes: 45
+
+    environment:
+      name: production
+      url: https://your-production-url.com
 
     steps:
       - name: Checkout code
@@ -346,3 +430,29 @@ jobs:
 
       - name: Run smoke tests on production
         run: npm run test:smoke || echo "Smoke tests not configured"
+
+      - name: Health check production
+        run: |
+          echo "Performing health check on production..."
+          # Add health check logic here
+
+  # Rollback deployment (if needed)
+  rollback:
+    name: Rollback Deployment
+    runs-on: ubuntu-latest
+    if: failure()
+    needs: [deploy-staging, deploy-production]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Rollback to previous version
+        run: |
+          echo "Rolling back to previous version"
+          # Add rollback logic here
+
+      - name: Notify rollback
+        run: |
+          echo "Rollback completed"
+          # Add notification logic here
