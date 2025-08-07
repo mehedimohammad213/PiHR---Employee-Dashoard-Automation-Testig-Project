@@ -64,6 +64,7 @@ PiHR---Employee-Dashoard-Automation-Testig-Project/
 ## 🎯 Key Features
 
 ### 🔧 Core Technologies
+
 - **Playwright**: Modern web automation library
 - **TypeScript**: Type-safe JavaScript
 - **Cucumber**: BDD framework with Gherkin syntax
@@ -71,6 +72,7 @@ PiHR---Employee-Dashoard-Automation-Testig-Project/
 - **Page Object Model**: Maintainable test structure
 
 ### 📊 Testing Methodologies
+
 - **BDD (Behavior Driven Development)**: Business-readable tests
 - **TDD (Test Driven Development)**: Test-first development
 - **Cross-browser Testing**: Chromium, Firefox, WebKit
@@ -78,6 +80,7 @@ PiHR---Employee-Dashoard-Automation-Testig-Project/
 - **Headless/Headed Mode**: Flexible execution options
 
 ### 📈 Reporting & Analytics
+
 - **Allure Reports**: Interactive HTML reports
 - **Screenshots**: Automatic and manual captures
 - **Performance Metrics**: Load time measurements
@@ -87,6 +90,7 @@ PiHR---Employee-Dashoard-Automation-Testig-Project/
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js (v18 or higher)
 - npm or yarn
 - Git
@@ -110,6 +114,7 @@ npm run test:install
 ### Running Tests
 
 #### Standard Playwright Tests
+
 ```bash
 # Run all tests
 npm test
@@ -125,6 +130,7 @@ npm run test:debug
 ```
 
 #### BDD Tests (Cucumber)
+
 ```bash
 # Run all BDD tests
 npm run bdd
@@ -141,6 +147,7 @@ npm run bdd:tags @login
 ```
 
 #### TDD Tests
+
 ```bash
 # Run all TDD tests
 npm run tdd
@@ -153,6 +160,7 @@ npm run tdd:debug
 ```
 
 #### Tagged Tests
+
 ```bash
 # Run smoke tests
 npm run test:smoke
@@ -165,6 +173,7 @@ npm run test:logout
 ```
 
 #### Allure Reporting
+
 ```bash
 # Run tests with Allure reporter
 npm run test:allure
@@ -182,6 +191,7 @@ npm run allure:serve
 ## 📝 Test Examples
 
 ### BDD Feature Example
+
 ```gherkin
 Feature: Employee Login
   As an employee
@@ -199,44 +209,52 @@ Feature: Employee Login
 ```
 
 ### TDD Example
+
 ```typescript
-test('should validate empty username field', async ({ page }) => {
+test("should validate empty username field", async ({ page }) => {
   // Arrange: Navigate to login page
-  await page.goto('https://webable.pihr.xyz/login');
-  
+  await page.goto("https://webable.pihr.xyz/login");
+
   // Act: Try to login with empty username
   const frame = page.locator('iframe[title="Login Page"]').contentFrame();
-  await frame!.getByRole('textbox', { name: 'Password' }).fill('testpassword');
-  await frame!.getByRole('button', { name: 'Login' }).click();
-  
+  await frame!.getByRole("textbox", { name: "Password" }).fill("testpassword");
+  await frame!.getByRole("button", { name: "Login" }).click();
+
   // Assert: Should show validation error (this test might fail initially)
   // This is the TDD approach - write the test first, then implement the feature
   try {
-    await expect(page.locator('.error-message')).toBeVisible();
+    await expect(page.locator(".error-message")).toBeVisible();
   } catch (error) {
-    console.log('Validation feature not implemented yet - this is expected in TDD');
+    console.log(
+      "Validation feature not implemented yet - this is expected in TDD"
+    );
   }
 });
 ```
 
 ### Page Object Model Example
+
 ```typescript
 export class LoginPage {
   private page: Page;
-  
+
   constructor(page: Page) {
     this.page = page;
   }
-  
+
   async goto() {
-    await this.page.goto('https://webable.pihr.xyz/login');
+    await this.page.goto("https://webable.pihr.xyz/login");
   }
-  
+
   async login(username: string, password: string) {
-    const frame = this.page.locator('iframe[title="Login Page"]').contentFrame();
-    await frame!.getByRole('textbox', { name: 'Username/ Mobile' }).fill(username);
-    await frame!.getByRole('textbox', { name: 'Password' }).fill(password);
-    await frame!.getByRole('button', { name: 'Login' }).click();
+    const frame = this.page
+      .locator('iframe[title="Login Page"]')
+      .contentFrame();
+    await frame!
+      .getByRole("textbox", { name: "Username/ Mobile" })
+      .fill(username);
+    await frame!.getByRole("textbox", { name: "Password" }).fill(password);
+    await frame!.getByRole("button", { name: "Login" }).click();
   }
 }
 ```
@@ -244,53 +262,59 @@ export class LoginPage {
 ## 🔧 Configuration
 
 ### Playwright Configuration
+
 ```typescript
 // playwright.config.ts
 export default defineConfig({
-  testDir: './tests',
+  testDir: "./tests",
   fullyParallel: true,
   reporter: [
-    ['html'],
-    ['allure-playwright', {
-      detail: true,
-      outputFolder: 'allure-results',
-      suiteTitle: false,
-      attachments: true,
-      environmentInfo: {
-        framework: 'Playwright',
-        language: 'TypeScript'
-      }
-    }]
+    ["html"],
+    [
+      "allure-playwright",
+      {
+        detail: true,
+        outputFolder: "allure-results",
+        suiteTitle: false,
+        attachments: true,
+        environmentInfo: {
+          framework: "Playwright",
+          language: "TypeScript",
+        },
+      },
+    ],
   ],
   use: {
-    baseURL: 'http://127.0.0.1:3000',
-    trace: 'on-first-retry',
+    baseURL: "http://127.0.0.1:3000",
+    trace: "on-first-retry",
   },
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
-    { name: 'webkit', use: { ...devices['Desktop Safari'] } }
-  ]
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "firefox", use: { ...devices["Desktop Firefox"] } },
+    { name: "webkit", use: { ...devices["Desktop Safari"] } },
+  ],
 });
 ```
 
 ### Cucumber Configuration
+
 ```javascript
 // cucumber.js
 module.exports = {
   default: {
-    requireModule: ['ts-node/register'],
-    require: ['features/step-definitions/**/*.ts', 'features/support/**/*.ts'],
-    format: ['progress-bar', 'html:cucumber-report.html'],
-    formatOptions: { snippetInterface: 'async-await' },
-    publishQuiet: true
-  }
+    requireModule: ["ts-node/register"],
+    require: ["features/step-definitions/**/*.ts", "features/support/**/*.ts"],
+    format: ["progress-bar", "html:cucumber-report.html"],
+    formatOptions: { snippetInterface: "async-await" },
+    publishQuiet: true,
+  },
 };
 ```
 
 ## 📊 Test Categories
 
 ### BDD Tags
+
 - `@smoke`: Critical path tests
 - `@login`: Authentication tests
 - `@jobcard`: Job card functionality
@@ -301,6 +325,7 @@ module.exports = {
 - `@security`: Security-related tests
 
 ### TDD Categories
+
 - `@tdd`: Test-driven development examples
 - `@performance`: Performance testing
 - `@security`: Security testing
@@ -310,6 +335,7 @@ module.exports = {
 ## 🎯 Test Scenarios Covered
 
 ### Authentication
+
 - ✅ Valid login with credentials
 - ✅ Invalid login attempts
 - ✅ Empty field validation
@@ -318,6 +344,7 @@ module.exports = {
 - ✅ Session management
 
 ### Job Card Management
+
 - ✅ Navigate to job card section
 - ✅ Date range selection
 - ✅ PDF report generation
@@ -326,6 +353,7 @@ module.exports = {
 - ✅ Permission validation
 
 ### Monthly Attendance
+
 - ✅ Navigate to attendance section
 - ✅ Month selection
 - ✅ PDF report generation
@@ -333,6 +361,7 @@ module.exports = {
 - ✅ Dashboard access
 
 ### Dashboard Navigation
+
 - ✅ Employee section access
 - ✅ Self Service navigation
 - ✅ My Screens functionality
@@ -342,6 +371,7 @@ module.exports = {
 ## 📈 Reporting Features
 
 ### Allure Reports
+
 - **Interactive Dashboard**: Beautiful, responsive interface
 - **Test Steps**: Detailed step-by-step execution
 - **Screenshots**: Automatic and manual captures
@@ -351,6 +381,7 @@ module.exports = {
 - **Trend Analysis**: Historical test execution data
 
 ### Cucumber Reports
+
 - **HTML Reports**: `cucumber-report.html`
 - **Console Output**: Progress bar and step details
 - **Gherkin Syntax**: Business-readable scenarios
@@ -358,6 +389,7 @@ module.exports = {
 ## 🔄 Development Workflow
 
 ### BDD Workflow
+
 1. **Write Feature**: Create `.feature` file with scenarios
 2. **Generate Steps**: Cucumber generates step definitions
 3. **Implement Steps**: Write step implementation code
@@ -365,6 +397,7 @@ module.exports = {
 5. **Refine**: Update scenarios based on results
 
 ### TDD Workflow
+
 1. **Write Test**: Create test for non-existent feature
 2. **Run Test**: Test fails (Red)
 3. **Implement Feature**: Write minimal code to pass test
@@ -375,18 +408,21 @@ module.exports = {
 ## 🎯 Best Practices
 
 ### Code Organization
+
 - **Page Object Model**: Separate page logic from test logic
 - **Test Data Management**: Centralized test data
 - **Utility Functions**: Reusable helper methods
 - **Type Safety**: Full TypeScript support
 
 ### Test Design
+
 - **Descriptive Names**: Clear test and method names
 - **Single Responsibility**: One test per scenario
 - **Data-Driven**: Parameterized test scenarios
 - **Error Handling**: Comprehensive error scenarios
 
 ### Reporting
+
 - **Allure Integration**: Rich reporting with metadata
 - **Screenshots**: Automatic captures on failures
 - **Performance Metrics**: Load time measurements
@@ -395,24 +431,28 @@ module.exports = {
 ## 🚀 Advanced Features
 
 ### Performance Testing
+
 - Page load time measurements
 - Memory usage monitoring
 - Performance regression detection
 - Load time thresholds
 
 ### Security Testing
+
 - Input validation testing
 - XSS prevention testing
 - Session management testing
 - Permission validation
 
 ### Accessibility Testing
+
 - Screen reader compatibility
 - Keyboard navigation testing
 - Color contrast validation
 - ARIA attribute testing
 
 ### Cross-browser Testing
+
 - Chromium (Chrome/Edge)
 - Firefox
 - WebKit (Safari)
@@ -440,6 +480,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🆘 Support
 
 For support and questions:
+
 - Create an issue in the GitHub repository
 - Check the documentation files
 - Review the test examples
