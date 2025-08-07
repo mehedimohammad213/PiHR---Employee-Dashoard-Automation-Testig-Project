@@ -30,45 +30,55 @@ export class DashboardPage {
   }
 
   async navigateToJobCard() {
-    // Wait for page to fully load
-    await this.page.waitForTimeout(3000);
+    try {
+      // Wait for page to fully load
+      await this.page.waitForTimeout(3000);
 
-    // Click Self Service
-    await this.selfServiceMenu.click();
-    await this.page.waitForTimeout(2000);
+      // Click Self Service with retry
+      await this.retryClick(this.selfServiceMenu, "Self Service");
+      await this.page.waitForTimeout(2000);
 
-    // Double click Reports
-    await this.reportsMenu.dblclick();
-    await this.page.waitForTimeout(2000);
+      // Double click Reports with retry
+      await this.retryClick(this.reportsMenu, "Reports", true);
+      await this.page.waitForTimeout(2000);
 
-    // Click My Job Card
-    await this.myJobCardButton.click();
+      // Click My Job Card with retry
+      await this.retryClick(this.myJobCardButton, "My Job Card");
 
-    // Wait for navigation to job card page
-    await this.page.waitForURL("**/job-card**", {
-      timeout: config.PLAYWRIGHT_TIMEOUT,
-    });
+      // Wait for navigation to job card page
+      await this.page.waitForURL("**/job-card**", {
+        timeout: config.PLAYWRIGHT_TIMEOUT,
+      });
+    } catch (error) {
+      console.error("Failed to navigate to Job Card:", error);
+      throw error;
+    }
   }
 
   async navigateToMonthlyAttendance() {
-    // Wait for page to fully load
-    await this.page.waitForTimeout(3000);
+    try {
+      // Wait for page to fully load
+      await this.page.waitForTimeout(3000);
 
-    // Click Self Service
-    await this.selfServiceMenu.click();
-    await this.page.waitForTimeout(2000);
+      // Click Self Service with retry
+      await this.retryClick(this.selfServiceMenu, "Self Service");
+      await this.page.waitForTimeout(2000);
 
-    // Double click Reports
-    await this.reportsMenu.dblclick();
-    await this.page.waitForTimeout(2000);
+      // Double click Reports with retry
+      await this.retryClick(this.reportsMenu, "Reports", true);
+      await this.page.waitForTimeout(2000);
 
-    // Click Monthly Attendance
-    await this.monthlyAttendanceButton.click();
+      // Click Monthly Attendance with retry
+      await this.retryClick(this.monthlyAttendanceButton, "Monthly Attendance");
 
-    // Wait for navigation to attendance page
-    await this.page.waitForURL("**/attendance**", {
-      timeout: config.PLAYWRIGHT_TIMEOUT,
-    });
+      // Wait for navigation to attendance page
+      await this.page.waitForURL("**/attendance**", {
+        timeout: config.PLAYWRIGHT_TIMEOUT,
+      });
+    } catch (error) {
+      console.error("Failed to navigate to Monthly Attendance:", error);
+      throw error;
+    }
   }
 
   async navigateToDashboard() {
@@ -111,6 +121,33 @@ export class DashboardPage {
       return true;
     } catch {
       return false;
+    }
+  }
+
+  // Helper method for retry logic
+  private async retryClick(locator: Locator, elementName: string, doubleClick: boolean = false, maxRetries: number = 3) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        await locator.waitFor({ state: 'visible', timeout: 5000 });
+
+        if (doubleClick) {
+          await locator.dblclick();
+        } else {
+          await locator.click();
+        }
+
+        console.log(`Successfully clicked ${elementName} on attempt ${attempt}`);
+        return;
+      } catch (error) {
+        console.log(`Attempt ${attempt} failed for ${elementName}:`, error);
+
+        if (attempt === maxRetries) {
+          throw new Error(`Failed to click ${elementName} after ${maxRetries} attempts`);
+        }
+
+        // Wait before retry
+        await this.page.waitForTimeout(1000);
+      }
     }
   }
 }
