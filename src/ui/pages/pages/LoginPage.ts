@@ -1,5 +1,5 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { config, getTestData } from "../config/environment";
+import { config, getTestData } from "../../../core/config/environment";
 
 export class LoginPage {
   readonly page: Page;

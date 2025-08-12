@@ -1,5 +1,5 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { config } from "../config/environment";
+import { config } from "../../../core/config/environment";
 
 export class MonthlyAttendancePage {
   readonly page: Page;

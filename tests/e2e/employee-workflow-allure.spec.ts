@@ -1,11 +1,11 @@
 import { test, expect } from "@playwright/test";
 import { allure } from "allure-playwright";
-import { LoginPage } from "./pages/LoginPage";
-import { DashboardPage } from "./pages/DashboardPage";
-import { JobCardPage } from "./pages/JobCardPage";
-import { MonthlyAttendancePage } from "./pages/MonthlyAttendancePage";
-import { testData } from "./data/testData";
-import { TestUtils } from "./utils/TestUtils";
+import { LoginPage } from "@pages/LoginPage";
+import { DashboardPage } from "@pages/DashboardPage";
+import { JobCardPage } from "@pages/JobCardPage";
+import { MonthlyAttendancePage } from "@pages/MonthlyAttendancePage";
+import { testData } from "@core/data/testData";
+import { TestUtils } from "@core/utils/TestUtils";
 
 test.describe("Employee Workflow Tests with Allure Reporting", () => {
   let loginPage: LoginPage;

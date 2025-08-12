@@ -16,9 +16,12 @@
     "rootDir": "./",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./tests/*"]
+      "@/*": ["./tests/*"],
+      "@src/*": ["./src/*"],
+      "@pages/*": ["./src/ui/pages/pages/*"],
+      "@core/*": ["./src/core/*"]
     }
   },
-  "include": ["tests/**/*", "playwright.config.ts"],
+  "include": ["tests/**/*", "src/**/*", "playwright.config.ts"],
   "exclude": ["node_modules", "dist", "test-results", "playwright-report"]
 }

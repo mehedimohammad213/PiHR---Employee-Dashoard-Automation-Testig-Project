@@ -1,10 +1,10 @@
 import { test, expect } from "@playwright/test";
-import { LoginPage } from "./pages/LoginPage";
-import { DashboardPage } from "./pages/DashboardPage";
-import { JobCardPage } from "./pages/JobCardPage";
-import { MonthlyAttendancePage } from "./pages/MonthlyAttendancePage";
-import { TestUtils } from "./utils/TestUtils";
-import { testData } from "./data/testData";
+import { LoginPage } from "../../src/ui/pages/pages/LoginPage";
+import { DashboardPage } from "../../src/ui/pages/pages/DashboardPage";
+import { JobCardPage } from "../../src/ui/pages/pages/JobCardPage";
+import { MonthlyAttendancePage } from "../../src/ui/pages/pages/MonthlyAttendancePage";
+import { TestUtils } from "../../src/core/utils/TestUtils";
+import { testData } from "../../src/core/data/testData";
 
 test.describe("Enhanced Employee Workflow Tests", () => {
   let loginPage: LoginPage;
