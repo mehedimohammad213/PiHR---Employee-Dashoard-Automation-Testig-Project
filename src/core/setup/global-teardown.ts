@@ -1,15 +1,15 @@
 import { FullConfig } from "@playwright/test";
-import { config } from "../config/environment";
+import { config as env } from "../config/environment";
 
-async function globalTeardown(config: FullConfig) {
+async function globalTeardown(_playwrightConfig: FullConfig) {
   // Clean up any test artifacts
   console.log("Cleaning up test artifacts...");
 
   // Log test completion
-  console.log(`Test run completed in ${config.NODE_ENV} environment`);
-  console.log(`Base URL: ${config.BASE_URL}`);
-  console.log(`Browser: ${config.BROWSER_TYPE}`);
-  console.log(`Headless: ${config.PLAYWRIGHT_HEADLESS}`);
+  console.log(`Test run completed in ${env.NODE_ENV} environment`);
+  console.log(`Base URL: ${env.BASE_URL}`);
+  console.log(`Browser: ${env.BROWSER_TYPE}`);
+  console.log(`Headless: ${env.PLAYWRIGHT_HEADLESS}`);
 
   // Additional cleanup tasks can be added here
   // For example:

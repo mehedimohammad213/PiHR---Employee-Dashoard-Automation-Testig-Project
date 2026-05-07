@@ -1,8 +1,8 @@
 import { Given, When, Then } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
-import { LoginPage } from "../../tests/pages/LoginPage";
-import { DashboardPage } from "../../tests/pages/DashboardPage";
-import { testData } from "../../tests/data/testData";
+import { LoginPage } from "../../../../src/ui/pages/pages/LoginPage";
+import { DashboardPage } from "../../../../src/ui/pages/pages/DashboardPage";
+import { testData } from "../../../../src/core/data/testData";
 
 let loginPage: LoginPage;
 let dashboardPage: DashboardPage;

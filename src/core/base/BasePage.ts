@@ -1,4 +1,5 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator, expect } from "@playwright/test";
+import { config } from "../config/environment";
 
 /**
  * Base Page Object Model class that provides common functionality
@@ -8,7 +9,7 @@ export abstract class BasePage {
   protected page: Page;
   protected baseUrl: string;
 
-  constructor(page: Page, baseUrl: string = 'https://webable.pihr.xyz') {
+  constructor(page: Page, baseUrl: string = config.BASE_URL) {
     this.page = page;
     this.baseUrl = baseUrl;
   }
@@ -32,8 +33,8 @@ export abstract class BasePage {
   /**
    * Get element by role and name
    */
-  getByRole(role: string, name?: string): Locator {
-    return this.page.getByRole(role as any, name ? { name } : undefined);
+  getByRole(...args: Parameters<Page["getByRole"]>): Locator {
+    return this.page.getByRole(...args);
   }
 
   /**
@@ -160,10 +161,10 @@ export abstract class BasePage {
   }
 
   /**
-   * Wait for navigation
+   * Wait for navigation (URL stabilizes after action)
    */
   async waitForNavigation(): Promise<void> {
-    await this.page.waitForURL();
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**

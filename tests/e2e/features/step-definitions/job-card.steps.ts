@@ -1,7 +1,7 @@
 import { When, Then } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
-import { DashboardPage } from "../../tests/pages/DashboardPage";
-import { JobCardPage } from "../../tests/pages/JobCardPage";
+import { DashboardPage } from "../../../../src/ui/pages/pages/DashboardPage";
+import { JobCardPage } from "../../../../src/ui/pages/pages/JobCardPage";
 
 let dashboardPage: DashboardPage;
 let jobCardPage: JobCardPage;

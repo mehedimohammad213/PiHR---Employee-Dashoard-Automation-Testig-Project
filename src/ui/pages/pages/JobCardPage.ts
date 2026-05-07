@@ -1,5 +1,6 @@
 import { Page, Locator, expect } from "@playwright/test";
 import { config } from "../../../core/config/environment";
+import { DashboardPage } from "./DashboardPage";
 
 export class JobCardPage {
   readonly page: Page;
@@ -23,6 +24,16 @@ export class JobCardPage {
   async goto() {
     await this.page.goto(config.JOB_CARD_URL);
     await this.page.waitForLoadState("networkidle");
+  }
+
+  /** Uses dashboard sidebar navigation (tests expect `JobCardPage` to expose this API). */
+  async navigateToJobCard(): Promise<void> {
+    await new DashboardPage(this.page).navigateToJobCard();
+  }
+
+  /** Alias matching spec naming (`verifyJobCardPage`). */
+  async verifyJobCardPage(): Promise<void> {
+    await this.verifyJobCardPageLoaded();
   }
 
   async selectDateRange(startDate: string, endDate: string) {

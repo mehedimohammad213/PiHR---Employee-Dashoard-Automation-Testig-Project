@@ -1,5 +1,6 @@
 import { Page, Locator, expect } from "@playwright/test";
 import { config } from "../../../core/config/environment";
+import { DashboardPage } from "./DashboardPage";
 
 export class MonthlyAttendancePage {
   readonly page: Page;
@@ -21,6 +22,16 @@ export class MonthlyAttendancePage {
   async goto() {
     await this.page.goto(config.ATTENDANCE_URL);
     await this.page.waitForLoadState("networkidle");
+  }
+
+  /** Uses dashboard sidebar navigation (tests expect attendance page API here). */
+  async navigateToMonthlyAttendance(): Promise<void> {
+    await new DashboardPage(this.page).navigateToMonthlyAttendance();
+  }
+
+  /** Alias matching spec naming (`verifyMonthlyAttendancePage`). */
+  async verifyMonthlyAttendancePage(): Promise<void> {
+    await this.verifyAttendancePageLoaded();
   }
 
   async selectMonth(month: string) {

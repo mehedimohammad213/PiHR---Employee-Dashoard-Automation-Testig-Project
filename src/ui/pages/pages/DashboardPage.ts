@@ -104,13 +104,26 @@ export class DashboardPage {
   }
 
   async navigateToDashboard() {
-    await this.myScreensMenu.click();
-    await this.dashboardButton.click();
+    await this.navigateToMyScreens();
+    await this.clickDashboard();
+  }
 
-    // Wait for navigation back to dashboard
+  /** Expand “My Screens” in the sidebar (used before opening Dashboard again). */
+  async navigateToMyScreens() {
+    await this.waitForMenuToBeVisible();
+    await this.myScreensMenu.click();
+    await this.page.waitForTimeout(1000);
+  }
+
+  async clickDashboard() {
+    await this.dashboardButton.click();
     await this.page.waitForURL("**/dashboard**", {
       timeout: config.PLAYWRIGHT_TIMEOUT,
     });
+  }
+
+  async clickProfileImage() {
+    await this.profileImage.click();
   }
 
   async navigateToEmployee() {

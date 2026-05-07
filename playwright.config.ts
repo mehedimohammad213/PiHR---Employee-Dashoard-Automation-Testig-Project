@@ -54,11 +54,6 @@ export default defineConfig({
 
     /* Global timeout for navigation */
     navigationTimeout: config.PLAYWRIGHT_TIMEOUT,
-
-    /* Global timeout for each assertion */
-    expect: {
-      timeout: config.PLAYWRIGHT_TIMEOUT,
-    },
   },
 
   /* Configure projects for major browsers */

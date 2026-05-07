@@ -1,37 +1,50 @@
 import { When, Then } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
-import { DashboardPage } from "../../tests/pages/DashboardPage";
-import { MonthlyAttendancePage } from "../../tests/pages/MonthlyAttendancePage";
+import { DashboardPage } from "../../../../src/ui/pages/pages/DashboardPage";
+import { MonthlyAttendancePage } from "../../../../src/ui/pages/pages/MonthlyAttendancePage";
 
 let dashboardPage: DashboardPage;
 let monthlyAttendancePage: MonthlyAttendancePage;
 
 When("I click on {string}", async function (elementName: string) {
+  dashboardPage ??= new DashboardPage(this.page);
+
   if (elementName === "Self Service") {
     await dashboardPage.navigateToSelfService();
-  } else if (elementName === "Monthly Attendance") {
+    return;
+  }
+
+  if (elementName === "Monthly Attendance") {
     monthlyAttendancePage = new MonthlyAttendancePage(this.page);
     await monthlyAttendancePage.navigateToMonthlyAttendance();
-  } else if (elementName === "PDF Report") {
+    return;
+  }
+
+  if (elementName === "PDF Report") {
+    monthlyAttendancePage ??= new MonthlyAttendancePage(this.page);
     await monthlyAttendancePage.generatePDFReport();
+    return;
+  }
+
+  if (elementName === "My Screens") {
+    await dashboardPage.navigateToMyScreens();
+    return;
+  }
+
+  if (elementName === "Dashboard") {
+    await dashboardPage.clickDashboard();
   }
 });
 
 When("I select month {string}", async function (month: string) {
+  monthlyAttendancePage ??= new MonthlyAttendancePage(this.page);
   await monthlyAttendancePage.selectMonth(month);
 });
 
 When("I navigate back to {string}", async function (sectionName: string) {
+  dashboardPage ??= new DashboardPage(this.page);
   if (sectionName === "Self Service") {
     await dashboardPage.navigateToSelfService();
-  }
-});
-
-When("I click on {string}", async function (elementName: string) {
-  if (elementName === "My Screens") {
-    await dashboardPage.navigateToMyScreens();
-  } else if (elementName === "Dashboard") {
-    await dashboardPage.clickDashboard();
   }
 });
 
@@ -47,7 +60,7 @@ Then(
     // This would verify that a popup window opened with the attendance report
     // For now, we'll just check that the action completed
     await expect(this.page).toBeDefined();
-  }
+  },
 );
 
 Then("I should see {string}", async function (expectedResult: string) {

@@ -1,8 +1,8 @@
 import { chromium, FullConfig } from "@playwright/test";
-import { config } from "../config/environment";
+import { config as env } from "../config/environment";
 
-async function globalSetup(config: FullConfig) {
-  const { baseURL, storageState } = config.projects[0].use;
+async function globalSetup(playwrightConfig: FullConfig) {
+  const { baseURL, storageState } = playwrightConfig.projects[0].use;
 
   // Skip setup if no storage state is configured
   if (!storageState) return;
@@ -17,8 +17,8 @@ async function globalSetup(config: FullConfig) {
   await page.waitForSelector('iframe[title="Login Page"]');
 
   // Get test credentials from environment
-  const username = config.TEST_USERNAME;
-  const password = config.TEST_PASSWORD;
+  const username = env.TEST_USERNAME;
+  const password = env.TEST_PASSWORD;
 
   // Perform login
   const frame = page.frameLocator('iframe[title="Login Page"]');
@@ -29,7 +29,7 @@ async function globalSetup(config: FullConfig) {
 
   // Wait for successful login
   await page.waitForURL("**/dashboard**", {
-    timeout: config.PLAYWRIGHT_TIMEOUT,
+    timeout: env.PLAYWRIGHT_TIMEOUT,
   });
 
   // Save signed-in state

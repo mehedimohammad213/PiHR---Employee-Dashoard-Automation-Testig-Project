@@ -1,6 +1,6 @@
 import { When, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
-import { DashboardPage } from '../../tests/pages/DashboardPage';
+import { DashboardPage } from '../../../../src/ui/pages/pages/DashboardPage';
 
 let dashboardPage: DashboardPage;
 
