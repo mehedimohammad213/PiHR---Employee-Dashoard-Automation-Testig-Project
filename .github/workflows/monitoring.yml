@@ -23,7 +23,7 @@ on:
           - success_notification
 
 env:
-  NODE_VERSION: "20"
+  NODE_VERSION: "24"
   ALERT_RETENTION_DAYS: 7
 
 jobs:
@@ -35,10 +35,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
@@ -77,7 +77,7 @@ jobs:
           EOF
 
       - name: Upload health report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: pipeline-health-${{ github.run_id }}
           path: pipeline-health.json
@@ -91,10 +91,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
@@ -147,7 +147,7 @@ jobs:
           EOF
 
       - name: Upload performance report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: performance-monitoring-${{ github.run_id }}
           path: performance-monitoring.json
@@ -162,10 +162,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
@@ -209,7 +209,7 @@ jobs:
           EOF
 
       - name: Upload failure analysis
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: failure-analysis-${{ github.run_id }}
           path: failure-analysis.json
@@ -224,13 +224,13 @@ jobs:
 
     steps:
       - name: Download health report
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: pipeline-health-${{ github.run_id }}
           path: health-reports/
 
       - name: Download performance report
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: performance-monitoring-${{ github.run_id }}
           path: performance-reports/
@@ -296,7 +296,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Create monitoring dashboard
         run: |
@@ -462,7 +462,7 @@ jobs:
           EOF
 
       - name: Upload monitoring dashboard
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: monitoring-dashboard-${{ github.run_id }}
           path: monitoring-dashboard.html

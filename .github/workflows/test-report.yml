@@ -28,7 +28,7 @@ on:
           - performance
 
 env:
-  NODE_VERSION: "20"
+  NODE_VERSION: "24"
   REPORT_RETENTION_DAYS: 30
 
 jobs:
@@ -41,10 +41,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
@@ -56,7 +56,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Download previous test results
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: test-results-*
           path: previous-results/
@@ -110,7 +110,7 @@ jobs:
           EOF
 
       - name: Upload test reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-reports-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: |
@@ -129,10 +129,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download test reports
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: test-reports-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: test-reports/
@@ -186,7 +186,7 @@ jobs:
           EOF
 
       - name: Upload deployment health report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: deployment-health-report-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: deployment-health-report.md
@@ -201,13 +201,13 @@ jobs:
 
     steps:
       - name: Download reports
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: test-reports-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: test-reports/
 
       - name: Download health report
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: deployment-health-report-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: health-reports/
@@ -272,10 +272,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
@@ -317,7 +317,7 @@ jobs:
           EOF
 
       - name: Upload performance metrics
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: performance-metrics-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: performance-metrics.json
@@ -332,19 +332,19 @@ jobs:
 
     steps:
       - name: Download all reports
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: test-reports-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: test-reports/
 
       - name: Download health report
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: deployment-health-report-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: health-reports/
 
       - name: Download performance metrics
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: performance-metrics-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: performance-metrics/
@@ -418,7 +418,7 @@ jobs:
           EOF
 
       - name: Upload executive summary
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: executive-summary-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: executive-summary.md
@@ -433,25 +433,25 @@ jobs:
 
     steps:
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: test-reports-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: archives/test-reports/
 
       - name: Download health report
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: deployment-health-report-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: archives/health-reports/
 
       - name: Download performance metrics
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: performance-metrics-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: archives/performance-metrics/
 
       - name: Download executive summary
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: executive-summary-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: archives/executive-summary/
@@ -462,7 +462,7 @@ jobs:
           tar -czf test-reports-archive-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}-$(date +%Y%m%d).tar.gz archives/
 
       - name: Upload archive
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-reports-archive-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}
           path: test-reports-archive-${{ github.event.inputs.environment || 'staging' }}-${{ github.run_id }}-$(date +%Y%m%d).tar.gz

@@ -23,7 +23,7 @@ on:
           - performance
 
 env:
-  NODE_VERSION: "20"
+  NODE_VERSION: "24"
 
 jobs:
   # Generate comprehensive dashboard
@@ -33,10 +33,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
@@ -231,7 +231,7 @@ jobs:
           EOF
 
       - name: Upload dashboard
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-dashboard-${{ github.event.inputs.report_type || 'comprehensive' }}
           path: test-dashboard.html
@@ -245,7 +245,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Create executive summary
         run: |
@@ -302,7 +302,7 @@ jobs:
           EOF
 
       - name: Upload executive summary
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: executive-summary-report
           path: executive-summary-report.md
@@ -316,10 +316,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
@@ -412,7 +412,7 @@ jobs:
           EOF
 
       - name: Upload technical report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: technical-report
           path: technical-report.json
@@ -426,7 +426,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Create performance report
         run: |
@@ -492,7 +492,7 @@ jobs:
           EOF
 
       - name: Upload performance report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: performance-report
           path: performance-report.md
@@ -512,7 +512,7 @@ jobs:
 
     steps:
       - name: Download all reports
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: test-dashboard-${{ github.event.inputs.report_type || 'comprehensive' }}
           path: dashboards/
