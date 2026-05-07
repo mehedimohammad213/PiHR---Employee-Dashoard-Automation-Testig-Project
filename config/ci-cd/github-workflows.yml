@@ -257,7 +257,7 @@ jobs:
         run: npm ci
 
       - name: Download all test results
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           path: reports/test-results/
 

@@ -224,13 +224,13 @@ jobs:
 
     steps:
       - name: Download health report
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: pipeline-health-${{ github.run_id }}
           path: health-reports/
 
       - name: Download performance report
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: performance-monitoring-${{ github.run_id }}
           path: performance-reports/

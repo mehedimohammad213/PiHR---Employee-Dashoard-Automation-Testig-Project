@@ -512,7 +512,7 @@ jobs:
 
     steps:
       - name: Download all reports
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: test-dashboard-${{ github.event.inputs.report_type || 'comprehensive' }}
           path: dashboards/
